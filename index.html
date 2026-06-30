@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"/>
 <style>
-/* نفس الستايلات الموجودة ... (لم يتم تغييرها) */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{font-family:"Tajawal",system-ui,sans-serif;background:#1a2230;color:#fff;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
@@ -184,7 +183,6 @@ input:focus,textarea:focus{outline:none;border-color:var(--primary)!important;ba
 .visitor-box{padding:16px 36px;gap:20px}.visitor-number{font-size:34px}.visitor-icon,.visitor-badge{font-size:30px}
 }
 </style>
-<!-- تم التعديل: تم حذف السكريبتات المكررة، وتم تحميل المكتبة مرة واحدة فقط -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -389,565 +387,122 @@ input:focus,textarea:focus{outline:none;border-color:var(--primary)!important;ba
 </div>
 
 <script>
-// ════════════════════════════════════════
-// 1. تهيئة عميل Supabase (مرة واحدة وبشكل نهائي)
-// ════════════════════════════════════════
-const SUPABASE_URL = 'https://qqzntbleztjsfchossnh.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_2296X2GU2ImyMdQmZT1hpA_ny6GTUN4';
-
-// تأكد من أن supabase موجود في النطاق العام قبل استخدامه
-let supabaseClient = null;
-try {
-    if (typeof supabase !== 'undefined' && supabase.createClient) {
-        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        console.log('✅ Supabase client initialized successfully.');
-    } else {
-        console.warn('⚠️ Supabase library not loaded.');
-    }
-} catch (e) {
-    console.error('❌ Failed to initialize Supabase client:', e);
+// === إعدادات Supabase — مكتوبة مباشرة في الكود عشان تشتغل من أي جهاز ===
+var _SP_URL='https://qqzntbleztjsfchossnh.supabase.co';
+var _SP_KEY='sb_publishable_2296X2GU2ImyMdQmZT1hpA_ny6GTUN4';
+var spDB=null;
+function getSP(){
+  if(spDB)return spDB;
+  try{
+    spDB=window.supabase.createClient(_SP_URL,_SP_KEY);
+    return spDB;
+  }catch(e){console.error('Supabase init error:',e)}
+  return null;
 }
-
-// ════════════════════════════════════════
-// 2. المتغيرات العامة والوظائف الأساسية
-// ════════════════════════════════════════
-var cart = JSON.parse(localStorage.getItem('sc') || '[]');
-
-function saveC() {
-    localStorage.setItem('sc', JSON.stringify(cart));
-    upUI();
-}
-
-function upUI() {
-    var cs = document.getElementById('cCnt'),
-        ts = document.getElementById('cTP'),
-        cl = document.getElementById('cIL'),
-        t = 0,
-        n = 0;
-    if (!cart.length) {
-        cl.innerHTML = '<div class="ecm">السلة فارغة</div>';
-        cs.innerText = '0';
-        ts.innerText = '0 ج.م';
-        return;
-    }
-    var h = '';
-    cart.forEach(function(i, x) {
-        t += i.price * i.qty;
-        n += i.qty;
-        var d = '';
-        if (i.heat) d += '🔥 ' + i.heat + ' | ';
-        if (i.sauce) d += '🥫 ' + i.sauce + ' | ';
-        if (i.extras && i.extras.length) d += '➕ ' + i.extras.join(', ');
-        h += '<div class="cit"><div class="cin">' + i.name + '<div class="cip">' + d + '<br>' + i.price + ' ج.م</div></div><div class="cir"><span class="ciq">×' + i.qty + '</span><button class="crb" data-i="' + x + '">✕</button></div></div>';
-    });
-    cl.innerHTML = h;
-    cs.innerText = n;
-    ts.innerText = t + ' ج.م';
-    cl.querySelectorAll('.crb').forEach(function(b) {
-        b.addEventListener('click', function() {
-            cart.splice(+this.dataset.i, 1);
-            saveC();
-            toast('🗑 تم الحذف');
-        });
-    });
-}
-
-function toast(m) {
-    var t = document.getElementById('tst');
-    clearTimeout(window._tt);
-    t.innerText = m;
-    t.classList.add('show');
-    window._tt = setTimeout(function() {
-        t.classList.remove('show');
-    }, 2000);
-}
-
-function addW(d) {
-    var x = cart.findIndex(function(i) {
-        return i.name === d.name && i.heat === d.heat && i.sauce === d.sauce && JSON.stringify(i.extras) === JSON.stringify(d.extras);
-    });
-    if (x !== -1) {
-        cart[x].qty++;
-        cart[x].price = d.basePrice + (d.extrasPrice || 0);
-    } else {
-        cart.push({
-            name: d.name,
-            basePrice: d.basePrice,
-            price: d.basePrice + (d.extrasPrice || 0),
-            qty: 1,
-            heat: d.heat,
-            sauce: d.sauce,
-            extras: d.extras,
-            extrasPrice: d.extrasPrice || 0
-        });
-    }
-    saveC();
-    toast('✅ تمت الإضافة');
-}
-
-function bagOpts(c) {
-    var h = c.querySelector('.ho .hb.active'),
-        s = c.querySelector('.so .sb.active'),
-        ex = [],
-        ep = 0;
-    c.querySelectorAll('.eo .eb.active').forEach(function(e) {
-        ex.push(e.dataset.ea);
-        ep += parseInt(e.dataset.ep) || 0;
-    });
-    return { heat: h ? h.innerText : 'عادي', sauce: s ? s.innerText : 'كـجـيـن', extras: ex, extrasPrice: ep };
-}
-
-// ════════════════════════════════════════
-// 3. ربط أزرار الإضافة للسلة
-// ════════════════════════════════════════
-document.querySelectorAll('.addBagBtn').forEach(function(b) {
-    b.addEventListener('click', function(e) {
-        e.preventDefault();
-        var o = bagOpts(this.closest('.bc')),
-            bp = +this.dataset.basePrice,
-            et = o.extras.length ? ' + ' + o.extras.join(' + ') : '';
-        addW({
-            name: this.dataset.name + ' (🔥' + o.heat + ' | 🥫' + o.sauce + et + ')',
-            basePrice: bp,
-            heat: o.heat,
-            sauce: o.sauce,
-            extras: o.extras,
-            extrasPrice: o.extrasPrice
-        });
-    });
-});
-
-document.querySelectorAll('.addMixBtn').forEach(function(b) {
-    b.addEventListener('click', function(e) {
-        e.preventDefault();
-        var c = this.closest('.bc'),
-            h = c.querySelector('.ho .hb.active'),
-            s = c.querySelector('.so .sb.active'),
-            ht = h ? h.innerText : 'عادي',
-            sa = s ? s.innerText : 'كـجـيـن';
-        addW({
-            name: this.dataset.name + ' (🔥' + ht + ' | 🥫' + sa + ')',
-            basePrice: +this.dataset.basePrice,
-            heat: ht,
-            sauce: sa,
-            extras: [],
-            extrasPrice: 0
-        });
-    });
-});
-
-document.querySelectorAll('.addSimpleBtn').forEach(function(b) {
-    b.addEventListener('click', function(e) {
-        e.preventDefault();
-        addW({
-            name: this.dataset.name,
-            basePrice: +this.dataset.price,
-            heat: null,
-            sauce: null,
-            extras: [],
-            extrasPrice: 0
-        });
-    });
-});
-
-document.querySelectorAll('.addPastaBtn').forEach(function(b) {
-    b.addEventListener('click', function(e) {
-        e.preventDefault();
-        var c = this.closest('.pc'),
-            ex = [],
-            ep = 0;
-        c.querySelectorAll('.eo .eb.active').forEach(function(e) {
-            ex.push(e.dataset.ea);
-            ep += parseInt(e.dataset.ep) || 0;
-        });
-        var et = ex.length ? ' + ' + ex.join(' + ') : '';
-        addW({
-            name: this.dataset.name + et,
-            basePrice: +this.dataset.price,
-            heat: null,
-            sauce: null,
-            extras: ex,
-            extrasPrice: ep
-        });
-    });
-});
-
-document.querySelectorAll('.addTrayBtn').forEach(function(b) {
-    b.addEventListener('click', function(e) {
-        e.preventDefault();
-        addW({
-            name: this.dataset.name,
-            basePrice: +this.dataset.price,
-            heat: null,
-            sauce: null,
-            extras: [],
-            extrasPrice: 0
-        });
-    });
-});
-
-// ════════════════════════════════════════
-// 4. تأكيد الطلب
-// ════════════════════════════════════════
-document.getElementById('ckB').addEventListener('click', function() {
-    if (!cart.length) {
-        toast('⚠️ السلة فارغة!');
-        return;
-    }
-    // عرض ملخص الطلب
-    var sh = '',
-        t = 0;
-    cart.forEach(function(i) {
-        var it = i.price * i.qty;
-        t += it;
-        var d = '';
-        if (i.heat) d += '🔥 ' + i.heat + ' | ';
-        if (i.sauce) d += '🥫 ' + i.sauce + ' | ';
-        if (i.extras && i.extras.length) d += '➕ ' + i.extras.join(', ');
-        sh += '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>' + i.name + ' ×' + i.qty + '<br><span style="font-size:11px;color:#7ed957">' + d + '</span></span><span style="color:var(--card)">' + it + ' ج.م</span></div>';
-    });
-    document.getElementById('orderSummary').innerHTML = sh;
-    document.getElementById('checkoutTotal').innerHTML = t + ' ج.م';
-
-    // مسح الحقول السابقة
-    document.getElementById('fullName').value = '';
-    document.getElementById('phoneNumber').value = '';
-    document.getElementById('address').value = '';
-    document.getElementById('proofImage').value = '';
-    document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('selectedPayment').value = 'vodafone';
-    document.querySelectorAll('.pm-s').forEach(function(e) { e.classList.remove('selected'); });
-    document.querySelector('.pm-s[data-method="vodafone"]').classList.add('selected');
-
-    // إغلاق السلة وفتح مودال تأكيد الطلب
-    document.getElementById('cSB').classList.remove('open');
-    document.body.classList.remove('modal-open');
-    setTimeout(function() {
-        document.getElementById('checkoutModal').classList.add('active');
-        document.body.classList.add('modal-open');
-    }, 400);
-});
-
-// إغلاق مودال التأكيد
-document.getElementById('closeCheckoutModal').addEventListener('click', function() {
-    document.getElementById('checkoutModal').classList.remove('active');
-    document.body.classList.remove('modal-open');
-});
-document.getElementById('checkoutModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        this.classList.remove('active');
-        document.body.classList.remove('modal-open');
-    }
-});
-
-// اختيار طريقة الدفع
-document.querySelectorAll('.pm-s').forEach(function(e) {
-    e.addEventListener('click', function() {
-        document.querySelectorAll('.pm-s').forEach(function(m) { m.classList.remove('selected'); });
-        this.classList.add('selected');
-        document.getElementById('selectedPayment').value = this.dataset.method;
-    });
-});
-
-// رفع الصورة
-document.getElementById('uploadArea').addEventListener('click', function() {
-    document.getElementById('proofImage').click();
-});
-document.getElementById('proofImage').addEventListener('change', function() {
-    if (this.files && this.files[0]) {
-        var r = new FileReader();
-        r.onload = function(e) {
-            document.getElementById('previewImg').src = e.target.result;
-            document.getElementById('imagePreview').style.display = 'block';
-        };
-        r.readAsDataURL(this.files[0]);
-    }
-});
-
-// ════════════════════════════════════════
-// 5. زر "تأكيد الطلب وإرسال للواتساب" (الإصلاح النهائي)
-// ════════════════════════════════════════
-document.getElementById('confirmOrderBtn').addEventListener('click', function() {
-    var fn = document.getElementById('fullName').value.trim();
-    var ph = document.getElementById('phoneNumber').value.trim();
-    var ad = document.getElementById('address').value.trim();
-    var pm = document.getElementById('selectedPayment').value;
-
-    if (!fn) { toast('⚠️ أدخل الاسم'); return; }
-    if (!ph) { toast('⚠️ أدخل رقم الهاتف'); return; }
-    if (!ad) { toast('⚠️ أدخل العنوان'); return; }
-
-    var pt = pm === 'vodafone' ? '💳 فودافون كاش' : pm === 'instapay' ? '💳 إنستا باي' : '💵 كاش عند الاستلام';
-    var t = 0,
-        od = '';
-    cart.forEach(function(i) {
-        var it = i.price * i.qty;
-        t += it;
-        var d = '';
-        if (i.heat) d += '🔥 ' + i.heat + ', ';
-        if (i.sauce) d += '🥫 ' + i.sauce + ', ';
-        if (i.extras && i.extras.length) d += '➕ ' + i.extras.join(', ');
-        od += '▪️ ' + i.name + ' (' + d + ') × ' + i.qty + ' = ' + it + ' ج.م\n';
-    });
-
-    var msg = '🍤 *طلب جديد - شرمب بيرتس* 🍤\n\n' +
-        '👤 *الاسم:* ' + fn + '\n' +
-        '📞 *الهاتف:* ' + ph + '\n' +
-        '📍 *العنوان:* ' + ad + '\n' +
-        '💳 *الدفع:* ' + pt + '\n\n' +
-        '*🛒 الطلب:*\n' + od +
-        '\n💰 *الإجمالي:* ' + t + ' ج.م\n\n' +
-        '⏰ ' + new Date().toLocaleString('ar-EG');
-
-    // ------------------------------------------------
-    // إرسال البيانات إلى قاعدة البيانات (مرة واحدة فقط!)
-    // ------------------------------------------------
-    if (supabaseClient) {
-        var spItems = cart.map(function(i) {
-            return {
-                name: i.name,
-                qty: i.qty,
-                price: i.price,
-                heat: i.heat,
-                sauce: i.sauce,
-                extras: i.extras || []
-            };
-        });
-        supabaseClient
-            .from('orders')
-            .insert({
-                customer_name: fn,
-                phone: ph,
-                address: ad,
-                payment_method: pm,
-                items: spItems,
-                total: t,
-                status: 'pending'
-            })
-            .then(function(result) {
-                if (result.error) {
-                    console.error('❌ Supabase insertion error:', result.error);
-                } else {
-                    console.log('✅ Order saved to Supabase successfully.');
-                }
-            })
-            .catch(function(err) {
-                console.error('❌ Supabase insertion failed:', err);
-            });
-    } else {
-        console.warn('⚠️ Supabase client not available, order not saved to database.');
-    }
-
-    // فتح واتساب
-    window.open('https://wa.me/201010505747?text=' + encodeURIComponent(msg), '_blank');
-
-    // إفراغ السلة وإغلاق المودال
-    cart = [];
-    saveC();
-    document.getElementById('checkoutModal').classList.remove('active');
-    document.body.classList.remove('modal-open');
-    toast('🎉 تم إرسال الطلب!');
-});
-
-// ════════════════════════════════════════
-// 6. فتح/إغلاق مودالات القائمة
-// ════════════════════════════════════════
-function mdl(m, o, c) {
-    var m1 = document.getElementById(m),
-        o1 = document.getElementById(o),
-        c1 = document.getElementById(c);
-    if (o1) o1.addEventListener('click', function(e) {
-        e.preventDefault();
-        m1.classList.add('active');
-        document.body.classList.add('modal-open');
-    });
-    if (c1) c1.addEventListener('click', function() {
-        m1.classList.remove('active');
-        document.body.classList.remove('modal-open');
-    });
-    m1.addEventListener('click', function(e) {
-        if (e.target === m1) {
-            m1.classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
-    });
-}
-mdl('mT', 'opT', 'xT');
-mdl('mB', 'opB', 'xB');
-mdl('mG', 'opG', 'xG');
-mdl('mS', 'opS', 'xS');
-mdl('mSW', 'opSW', 'xSW');
-mdl('mR', 'opR', 'xR');
-mdl('mO', 'opO', 'xO');
-mdl('mDr', 'opDr', 'xDr');
-mdl('mOff', 'opOff', 'xOff');
-
-// ════════════════════════════════════════
-// 7. خيارات الأكياس (حرارة/صوص/إضافات)
-// ════════════════════════════════════════
-document.querySelectorAll('.ho').forEach(function(c) {
-    var bs = c.querySelectorAll('.hb');
-    bs.forEach(function(b) {
-        b.addEventListener('click', function() {
-            bs.forEach(function(x) { x.classList.remove('active'); });
-            this.classList.add('active');
-        });
-    });
-});
-document.querySelectorAll('.so').forEach(function(c) {
-    var bs = c.querySelectorAll('.sb');
-    bs.forEach(function(b) {
-        b.addEventListener('click', function() {
-            bs.forEach(function(x) { x.classList.remove('active'); });
-            this.classList.add('active');
-        });
-    });
-});
-document.querySelectorAll('.eo').forEach(function(c) {
-    c.querySelectorAll('.eb').forEach(function(b) {
-        b.addEventListener('click', function() {
-            this.classList.toggle('active');
-        });
-    });
-});
-
-// ════════════════════════════════════════
-// 8. التنقل والقوائم
-// ════════════════════════════════════════
-document.getElementById('stmB').addEventListener('click', function() {
-    document.getElementById('menuSection').scrollIntoView({ behavior: 'smooth' });
-});
-window.addEventListener('scroll', function() {
-    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
-});
-document.getElementById('cartI').addEventListener('click', function() {
-    document.getElementById('cSB').classList.add('open');
-    document.body.classList.add('modal-open');
-});
-document.getElementById('cCB').addEventListener('click', function() {
-    document.getElementById('cSB').classList.remove('open');
-    document.body.classList.remove('modal-open');
-});
-document.addEventListener('click', function(e) {
-    var s = document.getElementById('cSB');
-    if (s.classList.contains('open') && !s.contains(e.target) && !document.getElementById('cartI').contains(e.target)) {
-        s.classList.remove('open');
-        document.body.classList.remove('modal-open');
-    }
-});
-
-// القائمة الجانبية
-var ham = document.getElementById('hamB'),
-    nl = document.getElementById('navL'),
-    no = document.getElementById('navOv');
-
-function togN() {
-    ham.classList.toggle('a');
-    nl.classList.toggle('open');
-    if (no) no.classList.toggle('open');
-    document.body.classList.toggle('modal-open', nl.classList.contains('open'));
-}
-ham.addEventListener('click', togN);
-if (no) no.addEventListener('click', togN);
-nl.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() {
-        if (nl.classList.contains('open')) togN();
-    });
-});
-
-// ════════════════════════════════════════
-// 9. الترجمة (اللغات)
-// ════════════════════════════════════════
-var cL = 'ar',
-    TR = {
-        ar: {
-            home: '🏠 الرئيسية',
-            menu: '🍽️ القائمة',
-            about: '⚓ من نحن',
-            contact: '📞 اتصل بنا',
-            welcome: '✨ أهلًا بك في عالم الجمبري ✨',
-            heroTitle: 'قراصنه الجمبري',
-            menuBtn: 'تفقد القائمة',
-            aboutLink: 'من نحن ←',
-            menuTitle: 'قائمة الطعام',
-            aboutTitle: 'من نحن',
-            aboutText: 'في شرمب بيرتس (SHRIMP PIRATES) نقدم لكم أشهى المأكولات البحرية الطازجة بنكهات مميزة من جميع أنحاء العالم. جودة عالية، أسعار مناسبة، وأجواء بحرية فريدة. ⚓🏴‍☠️',
-            contactTitle: 'تواصل معنا',
-            copyright: '© 2026 SHRIMP PIRATES — جميع الحقوق محفوظة',
-            cartTitle: '🛒 سلة الطلبات',
-            cartEmpty: 'السلة فارغة',
-            totalLabel: 'الإجمالي:',
-            checkoutBtn: 'تأكيد الطلب عبر واتساب 📲'
-        },
-        en: {
-            home: '🏠 Home',
-            menu: '🍽️ Menu',
-            about: '⚓ About',
-            contact: '📞 Contact',
-            welcome: '✨ Welcome to the Pirates World ✨',
-            heroTitle: 'Shrimp Pirates',
-            menuBtn: 'View Menu',
-            aboutLink: 'About Us ←',
-            menuTitle: 'Food Menu',
-            aboutTitle: 'About Us',
-            aboutText: 'At Shrimp Pirates, we serve the freshest seafood with unique flavors from around the world. High quality, affordable prices, and a unique maritime atmosphere. ⚓🏴‍☠️',
-            contactTitle: 'Contact Us',
-            copyright: '© 2026 SHRIMP PIRATES — All Rights Reserved',
-            cartTitle: '🛒 Cart',
-            cartEmpty: 'Cart is empty',
-            totalLabel: 'Total:',
-            checkoutBtn: 'Confirm via WhatsApp 📲'
-        }
-    };
-
-function sL(l) {
-    cL = l;
-    localStorage.setItem('lang', l);
-    document.documentElement.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
-    document.getElementById('langL').innerText = l === 'ar' ? 'EN' : 'AR';
-    document.querySelectorAll('[data-key]').forEach(function(el) {
-        if (TR[l][el.dataset.key]) el.innerText = TR[l][el.dataset.key];
-    });
-    document.getElementById('visitorLabel').textContent = l === 'ar' ? 'عدد زوار الموقع' : 'TOTAL VISITORS';
-}
-document.getElementById('langT').addEventListener('click', function() {
-    sL(cL === 'ar' ? 'en' : 'ar');
-});
-
-// ════════════════════════════════════════
-// 10. عداد الزوار (بدون تغيير)
-// ════════════════════════════════════════
-(function() {
-    var K = 'sp_vc',
-        S = 'sp_vs',
-        el = document.getElementById('visitorCount'),
-        lb = document.getElementById('visitorLabel');
-    var c = parseInt(localStorage.getItem(K) || '0', 10);
-    if (!localStorage.getItem(S)) {
-        c++;
-        localStorage.setItem(K, '' + c);
-        localStorage.setItem(S, '1');
-    }
-    var st = performance.now();
-
-    function an(now) {
-        var p = Math.min((now - st) / 1200, 1),
-            e = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.floor(c * e).toLocaleString();
-        if (p < 1) requestAnimationFrame(an);
-        else {
-            el.textContent = c.toLocaleString();
-            el.classList.add('pulse');
-            setTimeout(function() { el.classList.remove('pulse'); }, 400);
-        }
-    }
-    requestAnimationFrame(an);
+// يعمل الاتصال فور تحميل الصفحة
+getSP();
+</script>
+<script>
+// === عداد الزوار ===
+(function(){
+var K='sp_vc',S='sp_vs',el=document.getElementById('visitorCount'),lb=document.getElementById('visitorLabel');
+var c=parseInt(localStorage.getItem(K)||'0',10);
+if(!localStorage.getItem(S)){c++;localStorage.setItem(K,''+c);localStorage.setItem(S,'1')}
+var st=performance.now();
+function an(now){var p=Math.min((now-st)/1200,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(c*e).toLocaleString();if(p<1)requestAnimationFrame(an);else{el.textContent=c.toLocaleString();el.classList.add('pulse');setTimeout(function(){el.classList.remove('pulse')},400)}}
+requestAnimationFrame(an);
 })();
 
-// تهيئة واجهة المستخدم
-upUI();
+// === التطبيق الرئيسي ===
+var cart=JSON.parse(localStorage.getItem('sc')||'[]');
+function saveC(){localStorage.setItem('sc',JSON.stringify(cart));upUI()}
+function upUI(){
+var cs=document.getElementById('cCnt'),ts=document.getElementById('cTP'),cl=document.getElementById('cIL'),t=0,n=0;
+if(!cart.length){cl.innerHTML='<div class="ecm">السلة فارغة</div>';cs.innerText='0';ts.innerText='0 ج.م';return}
+var h='';cart.forEach(function(i,x){t+=i.price*i.qty;n+=i.qty;var d='';if(i.heat)d+='🔥 '+i.heat+' | ';if(i.sauce)d+='🥫 '+i.sauce+' | ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');h+='<div class="cit"><div class="cin">'+i.name+'<div class="cip">'+d+'<br>'+i.price+' ج.م</div></div><div class="cir"><span class="ciq">×'+i.qty+'</span><button class="crb" data-i="'+x+'">✕</button></div></div>'});
+cl.innerHTML=h;cs.innerText=n;ts.innerText=t+' ج.م';
+cl.querySelectorAll('.crb').forEach(function(b){b.addEventListener('click',function(){cart.splice(+this.dataset.i,1);saveC();toast('🗑 تم الحذف')})});
+}
+function toast(m){var t=document.getElementById('tst');clearTimeout(window._tt);t.innerText=m;t.classList.add('show');window._tt=setTimeout(function(){t.classList.remove('show')},2000)}
+function addW(d){
+var x=cart.findIndex(function(i){return i.name===d.name&&i.heat===d.heat&&i.sauce===d.sauce&&JSON.stringify(i.extras)===JSON.stringify(d.extras)});
+if(x!==-1){cart[x].qty++;cart[x].price=d.basePrice+(d.extrasPrice||0)}
+else cart.push({name:d.name,basePrice:d.basePrice,price:d.basePrice+(d.extrasPrice||0),qty:1,heat:d.heat,sauce:d.sauce,extras:d.extras,extrasPrice:d.extrasPrice||0});
+saveC();toast('✅ تمت الإضافة')}
+function bagOpts(c){
+var h=c.querySelector('.ho .hb.active'),s=c.querySelector('.so .sb.active'),ex=[],ep=0;
+c.querySelectorAll('.eo .eb.active').forEach(function(e){ex.push(e.dataset.ea);ep+=parseInt(e.dataset.ep)||0});
+return{heat:h?h.innerText:'عادي',sauce:s?s.innerText:'كـجـيـن',extras:ex,extrasPrice:ep}}
+document.querySelectorAll('.addBagBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();var o=bagOpts(this.closest('.bc')),bp=+this.dataset.basePrice,et=o.extras.length?' + '+o.extras.join(' + '):'';addW({name:this.dataset.name+' (🔥'+o.heat+' | 🥫'+o.sauce+et+')',basePrice:bp,heat:o.heat,sauce:o.sauce,extras:o.extras,extrasPrice:o.extrasPrice})})});
+document.querySelectorAll('.addMixBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();var c=this.closest('.bc'),h=c.querySelector('.ho .hb.active'),s=c.querySelector('.so .sb.active'),ht=h?h.innerText:'عادي',sa=s?s.innerText:'كـجـيـن';addW({name:this.dataset.name+' (🔥'+ht+' | 🥫'+sa+')',basePrice:+this.dataset.basePrice,heat:ht,sauce:sa,extras:[],extrasPrice:0})})});
+document.querySelectorAll('.addSimpleBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();addW({name:this.dataset.name,basePrice:+this.dataset.price,heat:null,sauce:null,extras:[],extrasPrice:0})})});
+document.querySelectorAll('.addPastaBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();var c=this.closest('.pc'),ex=[],ep=0;c.querySelectorAll('.eo .eb.active').forEach(function(e){ex.push(e.dataset.ea);ep+=parseInt(e.dataset.ep)||0});var et=ex.length?' + '+ex.join(' + '):'';addW({name:this.dataset.name+et,basePrice:+this.dataset.price,heat:null,sauce:null,extras:ex,extrasPrice:ep})})});
+document.querySelectorAll('.addTrayBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();addW({name:this.dataset.name,basePrice:+this.dataset.price,heat:null,sauce:null,extras:[],extrasPrice:0})})});
 
-console.log('🚀 Shrimp Pirates App Loaded Successfully!');
+// تأكيد الطلب — يغلق السلة أولاً ثم يفتح مودال البيانات
+document.getElementById('ckB').addEventListener('click',function(){
+if(!cart.length){toast('⚠️ السلة فارغة!');return}
+var sh='',t=0;cart.forEach(function(i){var it=i.price*i.qty;t+=it;var d='';if(i.heat)d+='🔥 '+i.heat+' | ';if(i.sauce)d+='🥫 '+i.sauce+' | ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');sh+='<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>'+i.name+' ×'+i.qty+'<br><span style="font-size:11px;color:#7ed957">'+d+'</span></span><span style="color:var(--card)">'+it+' ج.م</span></div>'});
+document.getElementById('orderSummary').innerHTML=sh;document.getElementById('checkoutTotal').innerHTML=t+' ج.م';
+document.getElementById('fullName').value='';document.getElementById('phoneNumber').value='';document.getElementById('address').value='';document.getElementById('proofImage').value='';document.getElementById('imagePreview').style.display='none';
+document.getElementById('selectedPayment').value='vodafone';document.querySelectorAll('.pm-s').forEach(function(e){e.classList.remove('selected')});document.querySelector('.pm-s[data-method="vodafone"]').classList.add('selected');
+// أغلق السلة أولاً
+document.getElementById('cSB').classList.remove('open');document.body.classList.remove('modal-open');
+// انتظر أنيميشن إغلاق السلة ثم افتح مودال البيانات
+setTimeout(function(){document.getElementById('checkoutModal').classList.add('active');document.body.classList.add('modal-open')},400);
+});
+document.getElementById('closeCheckoutModal').addEventListener('click',function(){document.getElementById('checkoutModal').classList.remove('active');document.body.classList.remove('modal-open')});
+document.querySelectorAll('.pm-s').forEach(function(e){e.addEventListener('click',function(){document.querySelectorAll('.pm-s').forEach(function(m){m.classList.remove('selected')});this.classList.add('selected');document.getElementById('selectedPayment').value=this.dataset.method})});
+document.getElementById('uploadArea').addEventListener('click',function(){document.getElementById('proofImage').click()});
+document.getElementById('proofImage').addEventListener('change',function(){if(this.files&&this.files[0]){var r=new FileReader();r.onload=function(e){document.getElementById('previewImg').src=e.target.result;document.getElementById('imagePreview').style.display='block'};r.readAsDataURL(this.files[0])}});
+document.getElementById('confirmOrderBtn').addEventListener('click',function(e){
+e.preventDefault();
+if(this._busy)return;this._busy=true;var self=this;setTimeout(function(){self._busy=false},3000);
+var fn=document.getElementById('fullName').value.trim(),ph=document.getElementById('phoneNumber').value.trim(),ad=document.getElementById('address').value.trim(),pm=document.getElementById('selectedPayment').value;
+if(!fn){toast('⚠️ أدخل الاسم');this._busy=false;return}if(!ph){toast('⚠️ أدخل رقم الهاتف');this._busy=false;return}if(!ad){toast('⚠️ أدخل العنوان');this._busy=false;return}
+var pt=pm==='vodafone'?'💳 فودافون كاش':pm==='instapay'?'💳 إنستا باي':'💵 كاش عند الاستلام',t=0,od='';
+cart.forEach(function(i){var it=i.price*i.qty;t+=it;var d='';if(i.heat)d+='🔥 '+i.heat+', ';if(i.sauce)d+='🥫 '+i.sauce+', ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');od+='▪️ '+i.name+' ('+d+') × '+i.qty+' = '+it+' ج.م\n'});
+var msg='🍤 *طلب جديد - شرمب بيرتس* 🍤\n\n👤 *الاسم:* '+fn+'\n📞 *الهاتف:* '+ph+'\n📍 *العنوان:* '+ad+'\n💳 *الدفع:* '+pt+'\n\n*🛒 الطلب:*\n'+od+'\n💰 *الإجمالي:* '+t+' ج.م\n\n⏰ '+new Date().toLocaleString('ar-EG');
+// === إرسال الطلب لـ Supabase (لوحة التحكم) ===
+var sp=getSP();
+if(sp){
+  var spItems=cart.map(function(i){return{name:i.name,qty:i.qty,price:i.price,heat:i.heat,sauce:i.sauce,extras:i.extras||[]}});
+  sp.from('orders').insert({customer_name:fn,phone:ph,address:ad,payment_method:pm,items:spItems,total:t,status:'pending'}).then(function(r){
+    if(r.error)console.error('Order insert error:',r.error);
+    else console.log('Order sent to admin panel successfully');
+  }).catch(function(e){console.error('Order insert failed:',e)});
+}}
+window.open('https://wa.me/201010505747?text='+encodeURIComponent(msg),'_blank');cart=[];saveC();document.getElementById('checkoutModal').classList.remove('active');document.body.classList.remove('modal-open');toast('🎉 تم إرسال الطلب!')});
+document.getElementById('checkoutModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('active');document.body.classList.remove('modal-open')}});
+
+// فتح/إغلاق المودالات
+function mdl(m,o,c){var m1=document.getElementById(m),o1=document.getElementById(o),c1=document.getElementById(c);if(o1)o1.addEventListener('click',function(e){e.preventDefault();m1.classList.add('active');document.body.classList.add('modal-open')});if(c1)c1.addEventListener('click',function(){m1.classList.remove('active');document.body.classList.remove('modal-open')});m1.addEventListener('click',function(e){if(e.target===m1){m1.classList.remove('active');document.body.classList.remove('modal-open')}})}
+mdl('mT','opT','xT');mdl('mB','opB','xB');mdl('mG','opG','xG');mdl('mS','opS','xS');mdl('mSW','opSW','xSW');mdl('mR','opR','xR');mdl('mO','opO','xO');mdl('mDr','opDr','xDr');mdl('mOff','opOff','xOff');
+
+// خيارات الأكياس (حرارة/صوص/إضافات)
+document.querySelectorAll('.ho').forEach(function(c){var bs=c.querySelectorAll('.hb');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.classList.remove('active')});this.classList.add('active')})})});
+document.querySelectorAll('.so').forEach(function(c){var bs=c.querySelectorAll('.sb');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.classList.remove('active')});this.classList.add('active')})})});
+document.querySelectorAll('.eo').forEach(function(c){c.querySelectorAll('.eb').forEach(function(b){b.addEventListener('click',function(){this.classList.toggle('active')})})});
+
+// التنقل
+document.getElementById('stmB').addEventListener('click',function(){document.getElementById('menuSection').scrollIntoView({behavior:'smooth'})});
+window.addEventListener('scroll',function(){document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50)});
+document.getElementById('cartI').addEventListener('click',function(){document.getElementById('cSB').classList.add('open');document.body.classList.add('modal-open')});
+document.getElementById('cCB').addEventListener('click',function(){document.getElementById('cSB').classList.remove('open');document.body.classList.remove('modal-open')});
+document.addEventListener('click',function(e){var s=document.getElementById('cSB');if(s.classList.contains('open')&&!s.contains(e.target)&&!document.getElementById('cartI').contains(e.target)){s.classList.remove('open');document.body.classList.remove('modal-open')}});
+
+// القائمة الجانبية
+var ham=document.getElementById('hamB'),nl=document.getElementById('navL'),no=document.getElementById('navOv');
+function togN(){ham.classList.toggle('a');nl.classList.toggle('open');no.classList.toggle('open');document.body.classList.toggle('modal-open',nl.classList.contains('open'))}
+ham.addEventListener('click',togN);if(no)no.addEventListener('click',togN);
+nl.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){if(nl.classList.contains('open'))togN()})});
+
+// اللغات
+var cL='ar',TR={ar:{home:'🏠 الرئيسية',menu:'🍽️ القائمة',about:'⚓ من نحن',contact:'📞 اتصل بنا',welcome:'✨ أهلًا بك في عالم الجمبري ✨',heroTitle:'قراصنه الجمبري',menuBtn:'تفقد القائمة',aboutLink:'من نحن ←',menuTitle:'قائمة الطعام',aboutTitle:'من نحن',aboutText:'في شرمب بيرتس (SHRIMP PIRATES) نقدم لكم أشهى المأكولات البحرية الطازجة بنكهات مميزة من جميع أنحاء العالم. جودة عالية، أسعار مناسبة، وأجواء بحرية فريدة. ⚓🏴‍☠️',contactTitle:'تواصل معنا',copyright:'© 2026 SHRIMP PIRATES — جميع الحقوق محفوظة',cartTitle:'🛒 سلة الطلبات',cartEmpty:'السلة فارغة',totalLabel:'الإجمالي:',checkoutBtn:'تأكيد الطلب عبر واتساب 📲'},en:{home:'🏠 Home',menu:'🍽️ Menu',about:'⚓ About',contact:'📞 Contact',welcome:'✨ Welcome to the Pirates World ✨',heroTitle:'Shrimp Pirates',menuBtn:'View Menu',aboutLink:'About Us ←',menuTitle:'Food Menu',aboutTitle:'About Us',aboutText:'At Shrimp Pirates, we serve the freshest seafood with unique flavors from around the world. High quality, affordable prices, and a unique maritime atmosphere. ⚓🏴‍☠️',contactTitle:'Contact Us',copyright:'© 2026 SHRIMP PIRATES — All Rights Reserved',cartTitle:'🛒 Cart',cartEmpty:'Cart is empty',totalLabel:'Total:',checkoutBtn:'Confirm via WhatsApp 📲'}};
+function sL(l){cL=l;localStorage.setItem('lang',l);document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');document.getElementById('langL').innerText=l==='ar'?'EN':'AR';document.querySelectorAll('[data-key]').forEach(function(el){if(TR[l][el.dataset.key])el.innerText=TR[l][el.dataset.key]});document.getElementById('visitorLabel').textContent=l==='ar'?'عدد زوار الموقع':'TOTAL VISITORS'}
+document.getElementById('langT').addEventListener('click',function(){sL(cL==='ar'?'en':'ar')});
+
+upUI();
 </script>
 </body>
 </html>
