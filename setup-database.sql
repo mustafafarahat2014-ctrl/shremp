@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS orders (
-  id TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(16)))),
+  id TEXT PRIMARY KEY DEFAULT (gen_random_uuid()::text),
   order_number INTEGER NOT NULL,
   customer_name TEXT NOT NULL,
   phone TEXT NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS orders (
   status TEXT NOT NULL DEFAULT 'pending',
   notes TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW
+  updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE OR REPLACE FUNCTION set_order_number_fn()
@@ -28,9 +28,18 @@ CREATE TRIGGER set_order_number
   FOR EACH ROW
   EXECUTE FUNCTION set_order_number_fn();
 
-ALTER PUBLICATION supabase_realtime ADD TABLE orders;
+DO $$ BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE orders;
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public read" ON orders;
+DROP POLICY IF EXISTS "Public insert" ON orders;
+DROP POLICY IF EXISTS "Public update" ON orders;
+DROP POLICY IF EXISTS "Public delete" ON orders;
+
 CREATE POLICY "Public read" ON orders FOR SELECT USING (true);
 CREATE POLICY "Public insert" ON orders FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public update" ON orders FOR UPDATE USING (true);
