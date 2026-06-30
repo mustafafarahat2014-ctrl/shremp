@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>شرمب بيرتس — قراصنة الجمبري</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:"Tajawal",system-ui,sans-serif;background:#1a2230;color:#fff;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+body.modal-open{overflow:hidden;position:fixed;width:100%;height:100%}
+:root{--bg:#1a2230;--fg:#fff;--primary:#7ed957;--pf:#0f1620;--card:#fcd34d;--cf:#1a2230;--muted:#9aa3b2;--border:rgba(255,255,255,.15);--safe:env(safe-area-inset-bottom,0px)}
+a{text-decoration:none;color:inherit}img,video{display:block;max-width:100%}
+@keyframes fi{0%{opacity:0;transform:translateY(60px) scale(.85);filter:blur(8px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes sir{0%{opacity:0;transform:translateX(120px)}100%{opacity:1;transform:translateX(0)}}
+@keyframes zib{0%{opacity:0;transform:scale(.4) rotate(-10deg)}60%{opacity:1;transform:scale(1.06) rotate(1deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes gp{0%{box-shadow:0 0 0 0 rgba(126,217,87,.6)}70%{box-shadow:0 0 0 12px rgba(126,217,87,0)}100%{box-shadow:0 0 0 0 rgba(126,217,87,0)}}
+@keyframes bi{0%{opacity:0;transform:scale(.2) rotate(-120deg)}50%{opacity:1;transform:scale(1.15) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes fus{0%{opacity:0;transform:translateY(40px)}80%{transform:translateY(-5px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.08)}60%{transform:scale(.96)}100%{transform:scale(1)}}
+@keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero{position:relative;height:100vh;height:100dvh;overflow:hidden}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.05) 30%,rgba(0,0,0,.15) 60%,rgba(0,0,0,.6));z-index:1}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;gap:10px;transition:all .3s ease;background:transparent}
+.nav.scrolled{background:rgba(7,18,35,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(126,217,87,.2);padding:10px 20px;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.nl{display:none;position:fixed;top:0;right:0;width:75%;max-width:320px;height:100dvh;background:linear-gradient(180deg,#0b1321,#0f1d32);z-index:10001;flex-direction:column;padding:80px 32px 32px;border-left:3px solid var(--primary);transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.nl.open{transform:translateX(0)}
+.nl a{display:block;padding:18px 0;font-size:18px;font-weight:700;border-bottom:1px solid var(--border);transition:all .3s}
+.nl a:active{color:var(--primary);padding-right:12px}
+.nl a.active{color:var(--primary)}
+.no{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10000;opacity:0;visibility:hidden;transition:all .3s}
+.no.open{opacity:1;visibility:visible}
+.ham{display:flex;flex-direction:column;gap:5px;width:30px;height:24px;justify-content:center;cursor:pointer;z-index:10;background:none;border:none;padding:0}
+.ham span{display:block;width:100%;height:2.5px;background:#fff;border-radius:4px;transition:all .3s}
+.ham.a span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.ham.a span:nth-child(2){opacity:0}
+.ham.a span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
+.logo img{height:56px;width:auto;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));animation:zib .7s ease;transition:height .3s ease}
+.nav.scrolled .logo img{height:48px}
+.na{display:flex;align-items:center;gap:8px}
+.hc{position:relative;z-index:2;height:calc(100% - 90px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;margin-top:80px}
+.badge{border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.2);padding:8px 18px;border-radius:999px;font-size:13px;backdrop-filter:blur(8px);animation:fi .7s .1s both}
+.hero h1{margin-top:20px;font-size:clamp(40px,10vw,100px);font-weight:900;text-shadow:0 4px 25px rgba(0,0,0,.6);animation:gp 2s infinite,fi .7s .3s both}
+.ha{margin-top:32px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;animation:bi .7s .5s both}
+.btn{background:linear-gradient(135deg,#7ed957,#5cb838);color:var(--pf);border:none;padding:13px 32px;border-radius:50px;font-family:inherit;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:all .3s;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden}
+.btn::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .5s}
+.btn:active::before{left:100%}.btn:active{transform:scale(.96)!important}
+.menu{position:relative;background:linear-gradient(180deg,#071a2e,#0a2744,#071a2e);padding:60px 16px;overflow:hidden}
+.menu h2{text-align:center;font-size:clamp(26px,5vw,42px);font-weight:900;margin-bottom:16px;animation:fus .6s both}
+.grid{position:relative;z-index:1;max-width:1100px;margin:48px auto 0;display:grid;gap:16px;grid-template-columns:repeat(2,1fr)}
+.dish{text-align:center;cursor:pointer;animation:fi .5s forwards;opacity:0;-webkit-user-select:none;user-select:none}
+.dish:nth-child(1){animation-delay:.1s}.dish:nth-child(2){animation-delay:.2s}.dish:nth-child(3){animation-delay:.3s}.dish:nth-child(4){animation-delay:.4s}.dish:nth-child(5){animation-delay:.25s}.dish:nth-child(6){animation-delay:.35s}.dish:nth-child(7){animation-delay:.45s}.dish:nth-child(8){animation-delay:.5s}.dish:nth-child(9){animation-delay:.55s}
+.dish .iw{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.1);transition:all .4s cubic-bezier(.2,.9,.4,1.1);position:relative}
+.dish:active .iw{transform:scale(.96)}
+.dish img{aspect-ratio:1/1;width:100%;object-fit:cover;transition:transform .4s}
+.dl{position:absolute;bottom:0;left:0;right:0;padding:36px 10px 12px;background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.4) 60%,transparent);font-weight:900;font-size:15px;text-align:center;text-shadow:0 2px 6px rgba(0,0,0,.5);pointer-events:none}
+.dl .le{display:block;font-size:10px;font-weight:600;color:rgba(255,255,255,.45);direction:ltr}
+.dh{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(135deg,#7ed957,#5cb838);color:var(--pf);font-size:13px;font-weight:900;padding:12px;text-align:center;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
+@media(hover:hover){.dish:hover .iw{transform:translateY(-10px) scale(1.03);box-shadow:0 20px 35px rgba(0,0,0,.3)}.dish:hover img{transform:scale(1.08)}.dish:hover .dh{opacity:1;transform:translateY(0)}.dish:hover .dl{opacity:0}}
+.about,.contact{padding:60px 16px;text-align:center;scroll-margin-top:80px}
+.about{background:var(--bg)}.about-inner,.contact-inner{max-width:600px;margin:0 auto}
+.about h2,.contact h2{font-size:clamp(24px,4vw,36px);font-weight:900;margin-bottom:20px;position:relative;display:inline-block}
+.about h2::after,.contact h2::after{content:"";position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:50px;height:3px;background:linear-gradient(90deg,#7ed957,#fcd34d);border-radius:3px}
+.about p{font-size:16px;line-height:1.8;color:var(--muted)}
+.contact{background:linear-gradient(135deg,#0f1620,#1a2230)}
+.cc{display:flex;flex-direction:column;gap:20px;max-width:550px;margin:20px auto 0}
+.ci{display:flex;align-items:center;gap:20px;background:rgba(255,255,255,.05);backdrop-filter:blur(8px);border:1.5px solid rgba(126,217,87,.3);border-radius:28px;padding:16px 20px;transition:all .3s;text-decoration:none;color:white}
+.ci:active{transform:scale(.98);background:rgba(126,217,87,.1)}
+.icon-social{width:70px;height:70px;background:rgba(0,0,0,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 0 2px var(--primary)}
+.icon-social img{width:48px;height:48px;object-fit:contain}
+.ci div{flex:1;text-align:right}
+.ci h3{font-size:22px;font-weight:900;margin-bottom:6px;color:#fcd34d}
+.ci p{font-size:14px;color:#bbb;margin-bottom:6px}
+.ci span{font-size:15px;font-weight:bold;color:#7ed957;display:block;margin-top:5px}
+.cic{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);padding:8px 12px;border-radius:40px;border:1px solid var(--border);cursor:pointer;transition:all .3s}
+.cic:active{transform:scale(.92)}
+.cnt{background:#e74c3c;color:#fff;font-weight:900;font-size:11px;border-radius:30px;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+.lt{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);padding:7px 12px;border-radius:40px;border:1px solid var(--border);cursor:pointer;font-size:12px;font-weight:700;color:var(--card);transition:all .3s;user-select:none;white-space:nowrap}
+.lt:active{transform:scale(.92)}
+.cs{position:fixed;top:0;left:0;width:100%;max-width:400px;height:100dvh;background:#0b1321;z-index:10010;transform:translateX(-100%);transition:transform .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;border-right:3px solid var(--primary)}
+.cs.open{transform:translateX(0)}
+.csh{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.csh h3{font-size:18px}
+.cx{background:rgba(255,255,255,.1);border:none;color:#fff;font-size:24px;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.cx:active{transform:scale(.9);background:#e74c3c}
+.cil{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px;-webkit-overflow-scrolling:touch}
+.cit{background:rgba(255,255,255,.05);border-radius:14px;padding:12px;display:flex;justify-content:space-between;align-items:center;animation:sir .3s ease}
+.cin{font-weight:700;font-size:14px;line-height:1.4;max-width:65%}
+.cip{color:var(--muted);font-size:12px;margin-top:2px}
+.cir{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ciq{font-weight:900;font-size:14px}
+.crb{background:rgba(231,76,60,.15);border:none;color:#e74c3c;padding:6px 10px;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;font-size:13px;transition:all .2s}
+.crb:active{background:#e74c3c;color:#fff;transform:scale(.95)}
+.ct{padding:16px 20px;padding-bottom:calc(16px + var(--safe));border-top:1px solid var(--border);background:#07111f;flex-shrink:0}
+.tr{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin-bottom:16px}
+.cb{width:100%;background:linear-gradient(135deg,#7ed957,#5cb838);color:var(--pf);font-weight:900;font-size:16px;padding:14px;border:none;border-radius:40px;cursor:pointer;font-family:inherit;transition:all .3s}
+.cb:active{transform:scale(.97)}
+.ecm{text-align:center;color:var(--muted);padding:40px 20px;font-size:16px}
+.toast{position:fixed;bottom:calc(24px + var(--safe));left:50%;transform:translateX(-50%) translateY(20px) scale(.9);background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;font-weight:bold;padding:12px 24px;border-radius:50px;z-index:10020;opacity:0;transition:all .3s;pointer-events:none;font-family:inherit;font-size:14px;white-space:nowrap;max-width:90vw;text-overflow:ellipsis;overflow:hidden}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+.mmo{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;visibility:hidden;transition:all .35s}
+.mmo.active{opacity:1;visibility:visible}
+.mm{background:linear-gradient(175deg,#091428,#0d1f3c,#091428);border:2px solid rgba(252,211,77,.15);border-radius:24px 24px 0 0;width:100%;max-width:700px;max-height:92dvh;overflow-y:auto;transform:translateY(100%);transition:transform .45s cubic-bezier(.4,0,.2,1);-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.mmo.active .mm{transform:translateY(0)}
+.mh{width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:4px;margin:12px auto 0;flex-shrink:0}
+.mc{position:sticky;top:0;float:left;margin:10px 12px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+.mc:active{background:#e74c3c;transform:scale(.9)}
+.mi{padding:4px 20px 32px;padding-bottom:calc(32px + var(--safe));animation:fi .4s}
+.mb{text-align:center;font-size:10px;font-weight:700;letter-spacing:3px;color:rgba(252,211,77,.4)}
+.mt{text-align:center;font-size:clamp(22px,5vw,34px);font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,#fcd34d,#7ed957);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mtl{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:24px}
+.mtl span{height:2px;width:50px;background:linear-gradient(90deg,transparent,var(--card),transparent)}
+.tc,.gc,.sc,.pc,.bc,.rc,.nc,.sac,.oc,.fc,.salc,.mdc,.dc,.ofc{background:rgba(255,255,255,.04);border:1px solid rgba(252,211,77,.1);border-radius:16px;padding:16px;margin-bottom:18px;transition:all .3s}
+.tc:active,.gc:active,.sc:active,.pc:active,.bc:active,.rc:active,.nc:active,.sac:active,.oc:active,.fc:active,.salc:active,.mdc:active,.dc:active,.ofc:active{background:rgba(255,255,255,.08);transform:scale(.99)}
+.th,.gh,.sh,.ph,.bh,.rh,.nh,.sah,.oh,.fh,.salh,.mdh,.dhdr,.ohf{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.tn,.gn,.sn,.pn,.bn,.rn,.nn,.san,.on,.fn,.saln,.mdn,.dn,.ofn{font-size:17px;font-weight:900}
+.tp,.gp,.sp,.pp,.bp,.rp,.np,.sap,.op,.fp,.salp,.mdp,.dp,.ofp{background:linear-gradient(135deg,#fcd34d,#f5b81b);color:var(--cf);font-size:15px;font-weight:900;padding:5px 16px;border-radius:40px;white-space:nowrap}
+.sd{background:rgba(255,255,255,.05);padding:8px 12px;border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--muted);line-height:1.5}
+.tpe{display:inline-block;background:#fcd34d;color:#1a2230;font-size:12px;font-weight:800;padding:5px 14px;border-radius:40px;margin:6px 0 10px}
+.ti{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ttag{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.75);font-size:12px;padding:5px 12px;border-radius:30px}
+.aib,.acb{background:linear-gradient(135deg,#7ed957,#5cb838);border:none;color:#0f1620;font-weight:800;padding:12px 16px;border-radius:40px;cursor:pointer;margin-top:10px;width:100%;font-size:14px;font-family:inherit;transition:all .3s;position:relative;overflow:hidden}
+.aib::before,.acb::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transition:left .4s}
+.aib:active::before,.acb:active::before{left:100%}.aib:active,.acb:active{transform:scale(.97)}
+.acbs{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;padding:13px 20px;border:none;border-radius:14px;font-family:"Tajawal",system-ui,sans-serif;font-size:15px;font-weight:900;cursor:pointer;overflow:hidden;z-index:1;color:#0f1620;background:linear-gradient(135deg,#7ed957,#5cb838);box-shadow:0 4px 12px rgba(126,217,87,.4);transition:all .3s}
+.acbs:active{transform:scale(.97)}
+.or{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px}
+.og{flex:1;min-width:100%}
+.og label{display:block;font-size:12px;color:var(--card);margin-bottom:6px;font-weight:700}
+.ho,.so,.eo{display:flex;flex-wrap:wrap;gap:8px}
+.hb,.sb,.eb{background:rgba(255,255,255,.07);border:1px solid var(--border);padding:8px 14px;border-radius:30px;cursor:pointer;font-size:13px;transition:all .2s;font-family:inherit;color:var(--fg)}
+.hb:active,.sb:active,.eb:active{transform:scale(.95)}
+.hb.active,.sb.active,.eb.active{background:var(--primary);color:var(--pf);border-color:var(--primary);box-shadow:0 0 8px rgba(126,217,87,.4)}
+.bd{background:rgba(255,255,255,.05);padding:8px 12px;border-radius:10px;margin-bottom:14px;font-size:12px;color:var(--muted)}
+.bcat{margin-bottom:28px}
+.bcat h3{font-size:18px;font-weight:900;color:var(--card);margin-bottom:14px;border-right:4px solid var(--card);padding-right:14px}
+.eg{margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.et{font-size:12px;color:var(--card);margin-bottom:8px;font-weight:700}
+footer{border-top:1px solid var(--border);padding:24px 16px;background:var(--bg);padding-bottom:calc(24px + var(--safe))}
+.fi{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.fc{font-size:12px;color:var(--muted)}
+.fs{display:flex;gap:10px}
+.fs a{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid var(--border);transition:all .3s}
+.fs a:active{transform:scale(.9);background:var(--primary);border-color:var(--primary)}
+.fs a svg{width:18px;height:18px;fill:var(--fg)}
+.quick-links{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.quick-links a{font-size:13px;color:var(--muted);transition:all .2s}
+.quick-links a:active{color:var(--primary)}
+.visitor-section{background:linear-gradient(135deg,#060d18,#0b1628,#060d18);padding:28px 16px 32px;border-top:1px solid rgba(126,217,87,.12);position:relative;overflow:hidden}
+.visitor-section::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 50%,rgba(126,217,87,.04) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(252,211,77,.03) 0%,transparent 60%);pointer-events:none;animation:float 8s ease-in-out infinite}
+.visitor-box{max-width:420px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,rgba(126,217,87,.08),rgba(252,211,77,.05));border:1.5px solid rgba(126,217,87,.2);border-radius:50px;padding:14px 28px;position:relative;z-index:1;backdrop-filter:blur(10px)}
+.visitor-icon{font-size:28px;animation:float 3s ease-in-out infinite;flex-shrink:0}
+.visitor-info{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1}
+.visitor-label{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:1px}
+.visitor-number{font-size:28px;font-weight:900;background:linear-gradient(135deg,#7ed957,#fcd34d,#7ed957);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 3s linear infinite;line-height:1.2;font-variant-numeric:tabular-nums;min-width:60px;text-align:center}
+.visitor-number.pulse{animation:countPulse .4s ease,shimmer 3s linear infinite}
+.visitor-badge{font-size:22px;flex-shrink:0;animation:float 3s ease-in-out infinite .5s}
+.visitor-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;background:#7ed957;border-radius:50%;box-shadow:0 0 8px rgba(126,217,87,.8);animation:gp 2s infinite}
+.pm-s{border:2px solid transparent;border-radius:20px;padding:16px 8px;text-align:center;cursor:pointer;background:rgba(255,255,255,.05);transition:all .3s}
+.pm-s.selected{border-color:var(--primary);background:rgba(126,217,87,.12);transform:scale(1.02)}
+.pm-s:active{transform:scale(.97)}
+input:focus,textarea:focus{outline:none;border-color:var(--primary)!important;background:rgba(126,217,87,.05)!important}
+@media(min-width:768px){
+.nl{display:flex!important;position:static;width:auto;max-width:none;height:auto;background:transparent;z-index:auto;flex-direction:row;padding:0;border:none;transform:none!important;gap:24px}
+.nl a{padding:8px 0;font-size:15px;font-weight:600;border-bottom:none;position:relative}
+.nl a::after{content:'';position:absolute;bottom:0;right:0;width:0;height:2px;background:linear-gradient(90deg,#7ed957,#fcd34d);transition:width .3s ease;border-radius:2px}
+.nl a:hover::after,.nl a.active::after{width:100%}
+.ham{display:none}.no{display:none!important}
+.hero{height:100vh}.nav.scrolled .logo img{height:60px}.logo img{height:80px}
+.hc{height:calc(100% - 100px);margin-top:0}
+.grid{grid-template-columns:repeat(3,1fr);gap:24px}
+.dl{font-size:18px;padding:44px 14px 14px}
+.menu{padding:80px 24px}.about,.contact{padding:80px 24px;scroll-margin-top:100px}
+.cc{max-width:800px}.ci{padding:22px 28px}.icon-social{width:80px;height:80px}.icon-social img{width:55px;height:55px}.ci h3{font-size:26px}
+.mm{border-radius:28px;max-height:88vh;align-self:center}.mmo{align-items:center;padding:16px}.mh{display:none}
+.fi{max-width:1000px}
+.visitor-box{padding:16px 36px;gap:20px}.visitor-number{font-size:34px}.visitor-icon,.visitor-badge{font-size:30px}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div id="mainContent">
+<section class="hero">
+<video src="menu-bg.mp4" autoplay muted playsinline poster="dish-1.jpg" loop></video>
+<header class="nav" id="mainNav">
+<button class="ham" id="hamB" aria-label="القائمة"><span></span><span></span><span></span></button>
+<nav class="nl" id="navL"><a href="#" class="active" data-key="home">🏠 الرئيسية</a><a href="#menuSection" data-key="menu">🍽️ القائمة</a><a href="#about" data-key="about">⚓ من نحن</a><a href="#contact" data-key="contact">📞 اتصل بنا</a></nav>
+<div class="logo"><img src="logo-shrimp-pirates.png" alt="SHRIMP PIRATES"></div>
+<div class="na"><div class="lt" id="langT"><span>🌐</span><span id="langL">EN</span></div><div class="cic" id="cartI"><svg viewBox="0 0 24 24" width="24" height="24" fill="#7ed957"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg><span class="cnt" id="cCnt">0</span></div></div>
+</header>
+<div class="hc"><span class="badge" data-key="welcome">✨ أهلًا بك في عالم الجمبري ✨</span><h1 data-key="heroTitle">قراصنه الجمبري</h1><div class="ha"><button class="btn" id="stmB" data-key="menuBtn">تفقد القائمة</button><a href="#about" style="color:#7ed957;font-weight:700;font-size:15px" data-key="aboutLink">من نحن ←</a></div></div>
+</section>
+
+<section class="menu" id="menuSection"><h2 data-key="menuTitle">قائمة الطعام</h2><div style="text-align:center;margin-top:-20px;margin-bottom:20px;color:#fcd34d;font-weight:800;font-size:14px">⚡ اطلب الآن واستمتع بأقوى العروض ⚡</div>
+<div class="grid">
+<div class="dish" id="opT"><div class="iw"><img src="dish-3.jpg" alt="صواني" loading="lazy"><span class="dl">صواني<span class="le">TRAYS</span></span><span class="dh">✨ اضغط لعرض الصواني ✨</span></div></div>
+<div class="dish" id="opB"><div class="iw"><img src="dish-2.jpg" alt="اكياس" loading="lazy"><span class="dl">أكياس جمبري<span class="le">SHRIMP BAGS</span></span><span class="dh">✨ اضغط لعرض الأكياس ✨</span></div></div>
+<div class="dish" id="opG"><div class="iw"><img src="dish-1.jpg" alt="مشاوي" loading="lazy"><span class="dl">الوجبات المشويه والمقليه<span class="le">GRILLED & FRIED</span></span><span class="dh">✨ اضغط للعرض ✨</span></div></div>
+<div class="dish" id="opS"><div class="iw"><img src="dish-4.jpg" alt="شوربات" loading="lazy"><span class="dl">شوربات ومكرونات<span class="le">SOUPS & PASTA</span></span><span class="dh">✨ اضغط للعرض ✨</span></div></div>
+<div class="dish" id="opSW"><div class="iw"><img src="dish-5.jpg" alt="السندوتشات" loading="lazy"><span class="dl">السندوتشات<span class="le">SANDWICHES</span></span><span class="dh">✨ اضغط للعرض ✨</span></div></div>
+<div class="dish" id="opR"><div class="iw"><img src="dish-9.jpg" alt="الأرز والنودلز" loading="lazy"><span class="dl">أرز ونودلز<span class="le">RICE & NOODLES</span></span><span class="dh">✨ اضغط للعرض ✨</span></div></div>
+<div class="dish" id="opO"><div class="iw"><img src="dish-6.jpg" alt="طواجن ومقبلات" loading="lazy"><span class="dl">طواجن ومقبلات<span class="le">OVEN & MORE</span></span><span class="dh">✨ اضغط للعرض ✨</span></div></div>
+<div class="dish" id="opDr"><div class="iw"><img src="dish-7.jpg" alt="المشروبات" loading="lazy"><span class="dl">المشروبات<span class="le">DRINKS</span></span><span class="dh">✨ اضغط للعرض ✨</span></div></div>
+<div class="dish" id="opOff"><div class="iw"><img src="dish-8.jpg" alt="العروض" loading="lazy"><span class="dl">العروض<span class="le">OFFERS</span></span><span class="dh">✨ اضغط للعرض ✨</span></div></div>
+</div></section>
+
+<section id="about" class="about"><div class="about-inner"><h2 data-key="aboutTitle">من نحن</h2><p data-key="aboutText">في شرمب بيرتس (SHRIMP PIRATES) نقدم لكم أشهى المأكولات البحرية الطازجة بنكهات مميزة من جميع أنحاء العالم. جودة عالية، أسعار مناسبة، وأجواء بحرية فريدة. ⚓🏴‍☠️</p><div style="margin-top:20px;font-size:14px;color:#7ed957">🔥 خبرة لأكثر من 10 سنوات في عالم المأكولات البحرية 🔥</div></div></section>
+
+<section id="contact" class="contact"><div class="contact-inner"><h2 data-key="contactTitle">تواصل معنا</h2>
+<div class="cc">
+<a href="https://www.instagram.com/shrimp_pirates" target="_blank" class="ci"><div class="icon-social"><img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="انستجرام"></div><div><h3>انستجرام</h3><p>تابعنا على الانستجرام</p><span>📸 شوف أحدث الطلبات →</span></div></a>
+<a href="https://www.facebook.com/share/1CcLUUDTMj/" target="_blank" class="ci"><div class="icon-social"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="فيسبوك"></div><div><h3>فيسبوك</h3><p>تابعنا على فيسبوك</p><span>📘 زرنا →</span></div></a>
+<a href="tel:0403312740" class="ci"><div class="icon-social"><img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="اتصال"></div><div><h3>اتصال مباشر</h3><p>رقم الأرضي</p><span>📞 0403312740</span></div></a>
+<a href="https://wa.me/201010505747" target="_blank" class="ci"><div class="icon-social"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="واتساب"></div><div><h3>واتساب</h3><p>تواصل معنا مباشرة</p><span>📱 تواصل الآن →</span></div></a>
+<a href="https://maps.app.goo.gl/tVW8XfTad4LowrLeA" target="_blank" class="ci"><div class="icon-social"><img src="https://cdn-icons-png.flaticon.com/512/854/854878.png" alt="موقع"></div><div><h3>📍 موقع المطعم</h3><p>افتح الخريطة واحصل على الاتجاهات</p><span>🗺️ اضغط للوصول →</span></div></a>
+</div></div></section>
+
+<footer><div class="fi"><div><span class="fc" data-key="copyright">© 2026 SHRIMP PIRATES — جميع الحقوق محفوظة</span></div><div class="quick-links"><a href="https://wa.me/201010505747">📱 واتساب</a><a href="tel:0403312740">📞 اتصال</a><a href="https://www.facebook.com/share/1CcLUUDTMj/">📘 فيسبوك</a><a href="https://www.instagram.com/shrimp_pirates">📸 انستجرام</a><a href="https://maps.app.goo.gl/tVW8XfTad4LowrLeA">🗺️ موقعنا</a></div><div class="fs"><a href="https://wa.me/201010505747"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a><a href="https://www.facebook.com/share/1CcLUUDTMj/"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a href="https://www.instagram.com/shrimp_pirates"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm4.5 7a1 1 0 100-2 1 1 0 000 2zM12 8.5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm0-2.5a6 6 0 100 12 6 6 0 000-12z"/></svg></a></div></div></footer>
+
+<div class="visitor-section"><div class="visitor-box"><div class="visitor-dot"></div><span class="visitor-icon">👁️</span><div class="visitor-info"><span class="visitor-label" id="visitorLabel">عدد زوار الموقع</span><span class="visitor-number" id="visitorCount">—</span></div><span class="visitor-badge">🏴‍☠️</span></div></div>
+
+<div class="cs" id="cSB"><div class="csh"><h3 data-key="cartTitle">🛒 سلة الطلبات</h3><button class="cx" id="cCB">&times;</button></div><div class="cil" id="cIL"><div class="ecm" data-key="cartEmpty">السلة فارغة</div></div><div class="ct"><div class="tr"><span data-key="totalLabel">الإجمالي:</span><span id="cTP">0 ج.م</span></div><button class="cb" id="ckB" data-key="checkoutBtn">تأكيد الطلب عبر واتساب 📲</button></div></div>
+<div class="toast" id="tst">✨ تمت الإضافة</div>
+
+<!-- الصواني -->
+<div class="mmo" id="mT"><div class="mm"><div class="mh"></div><button class="mc" id="xT">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">الصواني</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه البركه</span><span class="tp">395 ج.م</span></div><span class="tpe">👥 تكفي من فرد ل فردين</span><div class="ti"><span class="ttag">🍤 4 قطع جمبري باتر فلاي</span><span class="ttag">🍤 4 قطع جمبري مقلي راس وديل</span><span class="ttag">🐟 4 قطع فيلي مقلي</span><span class="ttag">🐚 3 بلح بحر</span><span class="ttag">🍚 فرشه رز صياديه</span><span class="ttag">🥗 1 سلطه</span><span class="ttag">🥫 2 صوص</span></div><button class="aib addTrayBtn" data-name="صنيه البركه" data-price="395">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه لمه العيد</span><span class="tp">850 ج.م</span></div><span class="tpe">👥 تكفي من فردين ل 3 افراد</span><div class="ti"><span class="ttag">🍤 7 قطع جمبري باترفلاي</span><span class="ttag">🍤 7 قطع جمبري مشوي خلطه</span><span class="ttag">🍤 7 قطع جمبري مقلي راس وديل</span><span class="ttag">🐟 5 قطع فيليه صغيرين</span><span class="ttag">🥗 3 سلطه خضراء</span><span class="ttag">🥫 3 صوص</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه لمه العيد" data-price="850">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه سفره رمضان</span><span class="tp">1300 ج.م</span></div><span class="tpe">👥 تكفي من 3 ل 4 افراد</span><div class="ti"><span class="ttag">🍤 ربع جمبري باترفلاي</span><span class="ttag">🍤 ربع جمبري مشوي خلطه</span><span class="ttag">🍤 ربع جمبري مقلي راس وديل</span><span class="ttag">🐟 ربع سمك فيليه كريسبي</span><span class="ttag">🦀 ربع كابوريا مشوي خلطه</span><span class="ttag">🥗 4 سلطه خضراء</span><span class="ttag">🥫 4 صوص</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه سفره رمضان" data-price="1300">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه الفانوس</span><span class="tp">695 ج.م</span></div><span class="tpe">👥 تكفي من فرد ل فردين</span><div class="ti"><span class="ttag">🍤 6 جمبري باترفلاي</span><span class="ttag">🦀 2 قطع كابوريا خلطه</span><span class="ttag">🍤 6 جمبري مقلي راس وديل</span><span class="ttag">🐟 4 قطع فيليه كريسبي</span><span class="ttag">🐚 4 قطع بلح بحر</span><span class="ttag">🥗 2 سلطه خضراء</span><span class="ttag">🥫 4 صوص</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه الفانوس" data-price="695">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه البحار</span><span class="tp">950 ج.م</span></div><span class="tpe">👥 تكفي من فردين ل 3 افراد</span><div class="ti"><span class="ttag">🍤 ربع جمبري باترفلاي</span><span class="ttag">🦀 ربع كابوريا خلطه</span><span class="ttag">🍤 ربع جمبري مقلي راس وديل</span><span class="ttag">🐟 ربع سمك فيليه كريسبي</span><span class="ttag">🐚 ربع بلح بحر</span><span class="ttag">🥗 3 سلطه خضراء</span><span class="ttag">🥫 4 صوص</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه البحار" data-price="950">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه اللمه</span><span class="tp">1750 ج.م</span></div><span class="tpe">👥 تكفي من 3 ل 4 افراد</span><div class="ti"><span class="ttag">🍤 نص جمبري باترفلاي</span><span class="ttag">🍤 كيس جمبري كيجين</span><span class="ttag">🍤 نص جمبري مقلي راس وديل</span><span class="ttag">🐟 نص سمك فيليه كريسبي</span><span class="ttag">🥗 4 سلطه خضراء</span><span class="ttag">🥫 4 صوص</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه اللمه" data-price="1750">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه مدفع رمضان</span><span class="tp">2350 ج.م</span></div><span class="tpe">👥 تكفي من 4 ل 5 افراد</span><div class="ti"><span class="ttag">🍤 نص جمبري باترفلاي</span><span class="ttag">🍤 نصف جمبري مشوي خلطه</span><span class="ttag">🍤 نص جمبري مقلي راس وديل</span><span class="ttag">🐟 نص سمك فيليه كريسبي</span><span class="ttag">🐚 ربع محار البحر بالخلطه</span><span class="ttag">🥗 5 سلطه خضراء</span><span class="ttag">🥫 6 صوص</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه مدفع رمضان" data-price="2350">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه قراصنه رمضان</span><span class="tp">4600 ج.م</span></div><span class="tpe">👥 تكفي من 4 ل 5 افراد</span><div class="ti"><span class="ttag">🍤 كيلو جمبري باترفلاي</span><span class="ttag">🍤 كيلو جمبري مشوي خلطه</span><span class="ttag">🍤 كيلو جمبري مقلي راس وديل</span><span class="ttag">🐟 نص سمك فيليه كريسبي</span><span class="ttag">🐚 نص محار البحر بالخلطه</span><span class="ttag">🦀 كيلو كابوريا مشوي بالخلطه</span><span class="ttag">🥗 10 سلطه خضراء</span><span class="ttag">🥫 10 صوص</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه قراصنه رمضان" data-price="4600">➕ أضف للسلة</button></div>
+<div class="tc"><div class="th"><span class="tn">🍽️ صنيه السلطان</span><span class="tp">1000 ج.م</span></div><span class="tpe">👥 تكفي من فردين ل 3 افراد</span><div class="ti"><span class="ttag">🍤 7 قطع جمبري باترفلاي</span><span class="ttag">🍤 7 قطع جمبري مشوي خلطه</span><span class="ttag">🍤 7 قطع جمبري مقلي راس وديل</span><span class="ttag">🦀 3 كابوريا</span><span class="ttag">🥗 3 سلطه خضراء</span><span class="ttag">🥫 4 صوص</span><span class="ttag">🐚 6 بلح بحر</span><span class="ttag">🍚 فرشه رز صياديه</span></div><button class="aib addTrayBtn" data-name="صنيه السلطان" data-price="1000">➕ أضف للسلة</button></div>
+</div></div></div>
+
+<!-- الأكياس -->
+<div class="mmo" id="mB"><div class="mm"><div class="mh"></div><button class="mc" id="xB">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🍤 أكياس الجمبري</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="bcat"><h3>🐠 جمبري حجم صغير</h3>
+<div class="bc"><div class="bh"><span class="bn">10 قطع مع الأرز</span><span class="bp">295 ج.م</span></div><div class="bd">📦 10 قطع جمبري حجم صغير + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري صغير 10 قطع" data-base-price="295">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">15 قطعة مع الأرز</span><span class="bp">350 ج.م</span></div><div class="bd">📦 15 قطعة جمبري حجم صغير + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري صغير 15 قطعة" data-base-price="350">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">25 قطعة مع الأرز</span><span class="bp">500 ج.م</span></div><div class="bd">📦 25 قطعة جمبري حجم صغير + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري صغير 25 قطعة" data-base-price="500">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🦐 جمبري حجم وسط</h3>
+<div class="bc"><div class="bh"><span class="bn">10 قطع مع الأرز</span><span class="bp">345 ج.م</span></div><div class="bd">📦 10 قطع جمبري حجم وسط + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري وسط 10 قطع" data-base-price="345">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">15 قطعة مع الأرز</span><span class="bp">445 ج.م</span></div><div class="bd">📦 15 قطعة جمبري حجم وسط + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري وسط 15 قطعة" data-base-price="445">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">25 قطعة مع الأرز</span><span class="bp">600 ج.م</span></div><div class="bd">📦 25 قطعة جمبري حجم وسط + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري وسط 25 قطعة" data-base-price="600">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🦞 جمبري حجم كبير</h3>
+<div class="bc"><div class="bh"><span class="bn">10 قطع مع الأرز</span><span class="bp">450 ج.م</span></div><div class="bd">📦 10 قطع جمبري حجم كبير + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري كبير 10 قطع" data-base-price="450">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">15 قطعة مع الأرز</span><span class="bp">650 ج.م</span></div><div class="bd">📦 15 قطعة جمبري حجم كبير + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري كبير 15 قطعة" data-base-price="650">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">25 قطعة مع الأرز</span><span class="bp">1200 ج.م</span></div><div class="bd">📦 25 قطعة جمبري حجم كبير + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><div class="og"><label>➕ إضافات</label><div class="eo"><span class="eb" data-ea="سويت كورن" data-ep="35">سويت كورن +35</span><span class="eb" data-ea="اسباجتي" data-ep="35">اسباجتي +35</span></div></div><button class="acb addBagBtn" data-name="جمبري كبير 25 قطعة" data-base-price="1200">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🦐 أكياس ميكس</h3>
+<div class="bc"><div class="bh"><span class="bn">كيس ميكس صغير</span><span class="bp">550 ج.م</span></div><div class="bd">📦 نص كيلو ميكس سي فود + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><button class="acbs addMixBtn" data-name="كيس ميكس صغير" data-base-price="550">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">كيس ميكس وسط</span><span class="bp">850 ج.م</span></div><div class="bd">📦 كيلو ميكس سي فود + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><button class="acbs addMixBtn" data-name="كيس ميكس وسط" data-base-price="850">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">كيس ميكس كبير</span><span class="bp">1500 ج.م</span></div><div class="bd">📦 كيلو ونصف ميكس سي فود + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><button class="acbs addMixBtn" data-name="كيس ميكس كبير" data-base-price="1500">➕ أضف للسلة</button></div>
+<div class="bc"><div class="bh"><span class="bn">سطل بحري</span><span class="bp">2200 ج.م</span></div><div class="bd">📦 2 كيلو ميكس سي فود + أرز</div><div class="or"><div class="og"><label>🌶️ الحرارة</label><div class="ho"><span class="hb active">عادي</span><span class="hb">وسط</span><span class="hb">نار</span></div></div></div><div class="og"><label>🥫 اختيار الصوص</label><div class="so"><span class="sb active">كـجـيـن</span><span class="sb">زبدة وثوم</span><span class="sb">فلفل ليمون</span><span class="sb">كريمة كاري</span><span class="sb">بـايـرتـس</span></div></div><button class="acbs addMixBtn" data-name="سطل بحري" data-base-price="2200">➕ أضف للسلة</button></div></div>
+</div></div></div>
+
+<!-- مشاوي ومقليات -->
+<div class="mmo" id="mG"><div class="mm"><div class="mh"></div><button class="mc" id="xG">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🍤 مشاوي ومقليات</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="bcat"><h3>🍟 مقليات</h3>
+<div class="gc"><div class="gh"><span class="gn">🍤 سلة جمبري مقلي</span><span class="gp">350 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلة جمبري مقلي" data-price="350">➕ أضف للسلة</button></div>
+<div class="gc"><div class="gh"><span class="gn">🦑 سلة كلماري مقلي</span><span class="gp">280 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلة كلماري مقلي" data-price="280">➕ أضف للسلة</button></div>
+<div class="gc"><div class="gh"><span class="gn">🐙 سلة ميكس مقلي</span><span class="gp">395 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلة ميكس مقلي" data-price="395">➕ أضف للسلة</button></div>
+<div class="gc"><div class="gh"><span class="gn">🐟 سلة أصابع السمك</span><span class="gp">260 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلة أصابع السمك" data-price="260">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🔥 مشاوي</h3>
+<div class="gc"><div class="gh"><span class="gn">🍤 جمبري مشوي</span><span class="gp">360 ج.م</span></div><button class="aib addSimpleBtn" data-name="جمبري مشوي" data-price="360">➕ أضف للسلة</button></div>
+<div class="gc"><div class="gh"><span class="gn">🐟 فيليه مشوي</span><span class="gp">270 ج.م</span></div><button class="aib addSimpleBtn" data-name="فيليه مشوي" data-price="270">➕ أضف للسلة</button></div>
+<div class="gc"><div class="gh"><span class="gn">🦀 كابوريا مشوي</span><span class="gp">370 ج.م</span></div><button class="aib addSimpleBtn" data-name="كابوريا مشوي" data-price="370">➕ أضف للسلة</button></div>
+<div class="gc"><div class="gh"><span class="gn">🐟 سالمون مشوي</span><span class="gp">390 ج.م</span></div><button class="aib addSimpleBtn" data-name="سالمون مشوي" data-price="390">➕ أضف للسلة</button></div>
+<div class="gc"><div class="gh"><span class="gn">🍤🐟 ميكس مشوي</span><span class="gp">395 ج.م</span></div><button class="aib addSimpleBtn" data-name="ميكس مشوي" data-price="395">➕ أضف للسلة</button></div></div>
+</div></div></div>
+
+<!-- شوربات ومكرونات -->
+<div class="mmo" id="mS"><div class="mm"><div class="mh"></div><button class="mc" id="xS">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🍜 شوربات ومكرونات</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="bcat"><h3>🥣 شوربات</h3>
+<div class="sc"><div class="sh"><span class="sn">🍲 شوربة كريمة سي فود</span><span class="sp">160 ج.م</span></div><div class="bd">جمبري مخلي + كلماري + فيليه</div><button class="aib addSimpleBtn" data-name="شوربة كريمة سي فود" data-price="160">➕ أضف للسلة</button></div>
+<div class="sc"><div class="sh"><span class="sn">🍲 شوربة كريمة جمبري</span><span class="sp">155 ج.م</span></div><div class="bd">جمبري مخلي فقط</div><button class="aib addSimpleBtn" data-name="شوربة كريمة جمبري" data-price="155">➕ أضف للسلة</button></div>
+<div class="sc"><div class="sh"><span class="sn">🍜 شوربة توم يم</span><span class="sp">160 ج.م</span></div><div class="bd">جمبري مخلي + كلماري + فيليه</div><button class="aib addSimpleBtn" data-name="شوربة توم يم" data-price="160">➕ أضف للسلة</button></div>
+<div class="sc"><div class="sh"><span class="sn">🏴‍☠️ شوربة القراصنة</span><span class="sp">200 ج.م</span></div><div class="bd">جمبري قشر ومخلي + كلماري + فيليه + كابوريا + محار البحر</div><button class="aib addSimpleBtn" data-name="شوربة القراصنة" data-price="200">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🍝 مكرونات</h3>
+<div class="pc"><div class="ph"><span class="pn">🍝 مكرونة وايت سادة</span><span class="pp">95 ج.م</span></div><button class="aib addPastaBtn" data-name="مكرونة وايت سادة" data-price="95">➕ أضف للسلة</button><div class="eg"><div class="et">➕ إضافات اختيارية</div><div class="eo"><span class="eb" data-ea="جبنة موتزاريلا" data-ep="35">🧀 جبنة موتزاريلا +35</span><span class="eb" data-ea="فلفل هالبينو" data-ep="15">🌶️ فلفل هالبينو +15</span></div></div></div>
+<div class="pc"><div class="ph"><span class="pn">🍝 مكرونة بنا جمبري</span><span class="pp">165 ج.م</span></div><button class="aib addPastaBtn" data-name="مكرونة بنا جمبري" data-price="165">➕ أضف للسلة</button><div class="eg"><div class="et">➕ إضافات اختيارية</div><div class="eo"><span class="eb" data-ea="جبنة موتزاريلا" data-ep="35">🧀 جبنة موتزاريلا +35</span><span class="eb" data-ea="فلفل هالبينو" data-ep="15">🌶️ فلفل هالبينو +15</span></div></div></div>
+<div class="pc"><div class="ph"><span class="pn">🍝 مكرونة فوتوتشيني جمبري</span><span class="pp">175 ج.م</span></div><button class="aib addPastaBtn" data-name="مكرونة فوتوتشيني جمبري" data-price="175">➕ أضف للسلة</button><div class="eg"><div class="et">➕ إضافات اختيارية</div><div class="eo"><span class="eb" data-ea="جبنة موتزاريلا" data-ep="35">🧀 جبنة موتزاريلا +35</span><span class="eb" data-ea="فلفل هالبينو" data-ep="15">🌶️ فلفل هالبينو +15</span></div></div></div>
+<div class="pc"><div class="ph"><span class="pn">🍤 مكرونة فرايد شريمب</span><span class="pp">175 ج.م</span></div><button class="aib addPastaBtn" data-name="مكرونة فرايد شريمب" data-price="175">➕ أضف للسلة</button><div class="eg"><div class="et">➕ إضافات اختيارية</div><div class="eo"><span class="eb" data-ea="جبنة موتزاريلا" data-ep="35">🧀 جبنة موتزاريلا +35</span><span class="eb" data-ea="فلفل هالبينو" data-ep="15">🌶️ فلفل هالبينو +15</span></div></div></div></div>
+</div></div></div>
+
+<!-- السندوتشات -->
+<div class="mmo" id="mSW"><div class="mm"><div class="mh"></div><button class="mc" id="xSW">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🥪 السندوتشات</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="sac"><div class="sah"><span class="san">🥪 شريمب رانش</span><span class="sap">155 ج.م</span></div><div class="sd">جمبري مقلي كريسبي، صوص الرانش والرومي المدخن</div><button class="aib addSimpleBtn" data-name="شريمب رانش" data-price="155">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🥪 شريمب آيلاند</span><span class="sap">150 ج.م</span></div><div class="sd">جمبري مقلي كريسبي مع الخس وصوص الآيلاند</div><button class="aib addSimpleBtn" data-name="شريمب آيلاند" data-price="150">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🌶️ شيلي شريمب</span><span class="sap">155 ج.م</span></div><div class="sd">جمبري مقلي كريسبي مع صوص السويت شيلي والهالبينو</div><button class="aib addSimpleBtn" data-name="شيلي شريمب" data-price="155">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🥪 شريمب باربيكيو</span><span class="sap">150 ج.م</span></div><div class="sd">جمبري مقلي كريسبي مع صوص الباربيكيو</div><button class="aib addSimpleBtn" data-name="شريمب باربيكيو" data-price="150">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🧀 شيزي شريمب</span><span class="sap">155 ج.م</span></div><div class="sd">جمبري مقلي كريسبي مع صوص الجبنة الشيدر</div><button class="aib addSimpleBtn" data-name="شيزي شريمب" data-price="155">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🍄 شريمب ماشروم</span><span class="sap">155 ج.م</span></div><div class="sd">جمبري مشوي مع البصل والمشروم وصوص المايونيز</div><button class="aib addSimpleBtn" data-name="شريمب ماشروم" data-price="155">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🏴‍☠️ قراصنة الجمبري</span><span class="sap">190 ج.م</span></div><div class="sd">جمبري مقلي كريسبي مع الفيليه والكلماري مع صوص الباربيكيو والرومي المدخن</div><button class="aib addSimpleBtn" data-name="قراصنة الجمبري" data-price="190">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🍤 كوردن شريمب</span><span class="sap">190 ج.م</span></div><div class="sd">قطعة من الجمبري المفروم المحشي بالجمبري وصوص الشيدر والرومي المدخن</div><button class="aib addSimpleBtn" data-name="كوردن شريمب" data-price="190">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🔥 جريلد شريمب</span><span class="sap">160 ج.م</span></div><div class="sd">جمبري مشوي مع البصل والفلفل مع صوص الباربيكيو</div><button class="aib addSimpleBtn" data-name="جريلد شريمب" data-price="160">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🐟 كنتري فيش</span><span class="sap">135 ج.م</span></div><div class="sd">فيليه مقلي كريسبي مع الخس والرومي المدخن وصوص الآيلاند</div><button class="aib addSimpleBtn" data-name="كنتري فيش" data-price="135">➕ أضف للسلة</button></div>
+<div class="sac"><div class="sah"><span class="san">🧀 تشيز فيش</span><span class="sap">130 ج.م</span></div><div class="sd">فيليه مقلي كريسبي مع الخس وصوص الجبنة الشيدر</div><button class="aib addSimpleBtn" data-name="تشيز فيش" data-price="130">➕ أضف للسلة</button></div>
+</div></div></div>
+
+<!-- أرز ونودلز -->
+<div class="mmo" id="mR"><div class="mm"><div class="mh"></div><button class="mc" id="xR">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🍚 أرز ونودلز</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="bcat"><h3>🍚 الأرز</h3>
+<div class="rc"><div class="rh"><span class="rn">🍚 أرز صيادية بالجمبري</span><span class="rp">135 ج.م</span></div><button class="aib addSimpleBtn" data-name="أرز صيادية بالجمبري" data-price="135">➕ أضف للسلة</button></div>
+<div class="rc"><div class="rh"><span class="rn">🍚 أرز صيادية بالسي فود</span><span class="rp">135 ج.م</span></div><button class="aib addSimpleBtn" data-name="أرز صيادية بالسي فود" data-price="135">➕ أضف للسلة</button></div>
+<div class="rc"><div class="rh"><span class="rn">🍚 ريزو بالجمبري المقلي</span><span class="rp">135 ج.م</span></div><button class="aib addSimpleBtn" data-name="ريزو بالجمبري المقلي" data-price="135">➕ أضف للسلة</button></div>
+<div class="rc"><div class="rh"><span class="rn">🍚 ريزو بالفيليه المقلي</span><span class="rp">100 ج.م</span></div><button class="aib addSimpleBtn" data-name="ريزو بالفيليه المقلي" data-price="100">➕ أضف للسلة</button></div>
+<div class="rc"><div class="rh"><span class="rn">🍚 أرز بايلا إسباني</span><span class="rp">220 ج.م</span></div><button class="aib addSimpleBtn" data-name="أرز بايلا إسباني" data-price="220">➕ أضف للسلة</button></div>
+<div class="rc"><div class="rh"><span class="rn">🍚 أرز صيادية سادة</span><span class="rp">37 ج.م</span></div><button class="aib addSimpleBtn" data-name="أرز صيادية سادة" data-price="37">➕ أضف للسلة</button></div>
+<div class="rc"><div class="rh"><span class="rn">🍚 أرز أبيض سادة</span><span class="rp">37 ج.م</span></div><button class="aib addSimpleBtn" data-name="أرز أبيض سادة" data-price="37">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🍜 النودلز</h3>
+<div class="nc"><div class="nh"><span class="nn">🍜 نودلز جمبري مقلي</span><span class="np">150 ج.م</span></div><button class="aib addSimpleBtn" data-name="نودلز جمبري مقلي" data-price="150">➕ أضف للسلة</button></div>
+<div class="nc"><div class="nh"><span class="nn">🍜 نودلز جمبري مشوي</span><span class="np">150 ج.م</span></div><button class="aib addSimpleBtn" data-name="نودلز جمبري مشوي" data-price="150">➕ أضف للسلة</button></div>
+<div class="nc"><div class="nh"><span class="nn">🍜 نودلز خضروات</span><span class="np">90 ج.م</span></div><button class="aib addSimpleBtn" data-name="نودلز خضروات" data-price="90">➕ أضف للسلة</button></div>
+<div class="nc"><div class="nh"><span class="nn">🍜 نودلز جمبري سويت شيلي</span><span class="np">150 ج.م</span></div><button class="aib addSimpleBtn" data-name="نودلز جمبري سويت شيلي" data-price="150">➕ أضف للسلة</button></div>
+<div class="nc"><div class="nh"><span class="nn">🍜 نودلز محار البحر</span><span class="np">150 ج.م</span></div><button class="aib addSimpleBtn" data-name="نودلز محار البحر" data-price="150">➕ أضف للسلة</button></div></div>
+</div></div></div>
+
+<!-- طواجن ومقبلات -->
+<div class="mmo" id="mO"><div class="mm"><div class="mh"></div><button class="mc" id="xO">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🍲 طواجن ومقبلات</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="bcat"><h3>🍲 الطواجن</h3>
+<div class="oc"><div class="oh"><span class="on">🍲 طاجن العريس</span><span class="op">450 ج.م</span></div><div class="sd">بطارخ وجمبري مع بيض سبيط وسي فود مخلي - يقدم مع الأرز الصيادية</div><button class="aib addSimpleBtn" data-name="طاجن العريس" data-price="450">➕ أضف للسلة</button></div>
+<div class="oc"><div class="oh"><span class="on">🏴‍☠️ طاجن القراصنة</span><span class="op">300 ج.م</span></div><div class="sd">جمبري مشوي مع بلح البحر وجمبري مخلي - يقدم مع الأرز الصيادية</div><button class="aib addSimpleBtn" data-name="طاجن القراصنة" data-price="300">➕ أضف للسلة</button></div>
+<div class="oc"><div class="oh"><span class="on">🧅 طاجن جمبري بالبصل</span><span class="op">350 ج.م</span></div><div class="sd">جمبري قشر مع البصل المكرمل - يقدم مع الأرز الصيادية</div><button class="aib addSimpleBtn" data-name="طاجن جمبري بالبصل" data-price="350">➕ أضف للسلة</button></div>
+<div class="oc"><div class="oh"><span class="on">🐟 طاجن فيليه</span><span class="op">200 ج.م</span></div><div class="sd">طاجن سمك فيليه مع الفلفل والبصل - يقدم مع الأرز الصيادية</div><button class="aib addSimpleBtn" data-name="طاجن فيليه" data-price="200">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🍟 البطاطس</h3>
+<div class="fc"><div class="fh"><span class="fn">🌶️ كجين فرايز</span><span class="fp">35 ج.م</span></div><div class="sd">بطاطس مقلية مع توابل الكجين</div><button class="aib addSimpleBtn" data-name="كجين فرايز" data-price="35">➕ أضف للسلة</button></div>
+<div class="fc"><div class="fh"><span class="fn">🌶️🧀 هالبينو تشيز فرايز</span><span class="fp">90 ج.م</span></div><div class="sd">بطاطس مقلية مع الجبنة والهالبينو</div><button class="aib addSimpleBtn" data-name="هالبينو تشيز فرايز" data-price="90">➕ أضف للسلة</button></div>
+<div class="fc"><div class="fh"><span class="fn">🍤🧀 شريمب تشيز فرايز</span><span class="fp">130 ج.م</span></div><div class="sd">بطاطس مقلية مع الجبنة والجمبري</div><button class="aib addSimpleBtn" data-name="شريمب تشيز فرايز" data-price="130">➕ أضف للسلة</button></div>
+<div class="fc"><div class="fh"><span class="fn">🇲🇽🧀 مكسيكو تشيز فرايز</span><span class="fp">160 ج.م</span></div><div class="sd">جمبري وفيليه مع البطاطس والجبنة</div><button class="aib addSimpleBtn" data-name="مكسيكو تشيز فرايز" data-price="160">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🥗 السلطات</h3>
+<div class="salc"><div class="salh"><span class="saln">🥗 سلطة خضرا</span><span class="salp">30 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلطة خضرا" data-price="30">➕ أضف للسلة</button></div>
+<div class="salc"><div class="salh"><span class="saln">🍤 سلطة جمبري</span><span class="salp">90 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلطة جمبري" data-price="90">➕ أضف للسلة</button></div>
+<div class="salc"><div class="salh"><span class="saln">🌿 سلطة جرجير</span><span class="salp">30 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلطة جرجير" data-price="30">➕ أضف للسلة</button></div>
+<div class="salc"><div class="salh"><span class="saln">🥬 سلطة كولسلو</span><span class="salp">30 ج.م</span></div><button class="aib addSimpleBtn" data-name="سلطة كولسلو" data-price="30">➕ أضف للسلة</button></div></div>
+<div class="bcat"><h3>🇹🇷 ميديا تركي</h3>
+<div class="mdc"><div class="mdh"><span class="mdn">🇹🇷 ميديا تركي صغير</span><span class="mdp">75 ج.م</span></div><div class="sd">محار البحر محشي أرز على الطريقة التركية</div><button class="aib addSimpleBtn" data-name="ميديا تركي صغير" data-price="75">➕ أضف للسلة</button></div>
+<div class="mdc"><div class="mdh"><span class="mdn">🇹🇷 ميديا تركي وسط</span><span class="mdp">135 ج.م</span></div><div class="sd">محار البحر محشي أرز على الطريقة التركية</div><button class="aib addSimpleBtn" data-name="ميديا تركي وسط" data-price="135">➕ أضف للسلة</button></div>
+<div class="mdc"><div class="mdh"><span class="mdn">🇹🇷 ميديا تركي كبير</span><span class="mdp">185 ج.م</span></div><div class="sd">محار البحر محشي أرز على الطريقة التركية</div><button class="aib addSimpleBtn" data-name="ميديا تركي كبير" data-price="185">➕ أضف للسلة</button></div></div>
+</div></div></div>
+
+<!-- المشروبات -->
+<div class="mmo" id="mDr"><div class="mm"><div class="mh"></div><button class="mc" id="xDr">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🥤 المشروبات</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="dc"><div class="dhdr"><span class="dn">🍹 موهيتو باشن فروت</span><span class="dp">60 ج.م</span></div><button class="aib addSimpleBtn" data-name="موهيتو باشن فروت" data-price="60">➕ أضف للسلة</button></div>
+<div class="dc"><div class="dhdr"><span class="dn">🍹 موهيتو بلوبيري</span><span class="dp">60 ج.م</span></div><button class="aib addSimpleBtn" data-name="موهيتو بلوبيري" data-price="60">➕ أضف للسلة</button></div>
+<div class="dc"><div class="dhdr"><span class="dn">🍋 ليمون نعناع</span><span class="dp">40 ج.م</span></div><button class="aib addSimpleBtn" data-name="ليمون نعناع" data-price="40">➕ أضف للسلة</button></div>
+<div class="dc"><div class="dhdr"><span class="dn">🥤 مشروب غازي</span><span class="dp">25 ج.م</span></div><button class="aib addSimpleBtn" data-name="مشروب غازي" data-price="25">➕ أضف للسلة</button></div>
+<div class="dc"><div class="dhdr"><span class="dn">💧 مياه</span><span class="dp">15 ج.م</span></div><button class="aib addSimpleBtn" data-name="مياه" data-price="15">➕ أضف للسلة</button></div>
+</div></div></div>
+
+<!-- العروض -->
+<div class="mmo" id="mOff"><div class="mm"><div class="mh"></div><button class="mc" id="xOff">&times;</button><div class="mi"><p class="mb">☠ Shrimp Pirates ☠</p><h2 class="mt">🎁 عروض خاصة</h2><div class="mtl"><span></span><svg width="16" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div class="ofc"><div class="ohf"><span class="ofn">🌶️ وجبة جمبري فاهيتا</span><span class="ofp">250 ج.م</span></div><div class="sd">جمبري مقلي مع الفلفل والبصل والأرز</div><button class="aib addSimpleBtn" data-name="وجبة جمبري فاهيتا" data-price="250">➕ أضف للسلة</button></div>
+<div class="ofc"><div class="ohf"><span class="ofn">🔥 وجبة جمبري مشوي</span><span class="ofp">250 ج.م</span></div><div class="sd">جمبري مشوي مع الفلفل والبصل والأرز</div><button class="aib addSimpleBtn" data-name="وجبة جمبري مشوي" data-price="250">➕ أضف للسلة</button></div>
+<div class="ofc"><div class="ohf"><span class="ofn">🐟 وجبة فيلية كريسبي</span><span class="ofp">250 ج.م</span></div><div class="sd">فيليه مقلي مع البطاطس والأرز</div><button class="aib addSimpleBtn" data-name="وجبة فيلية كريسبي" data-price="250">➕ أضف للسلة</button></div>
+<div class="ofc"><div class="ohf"><span class="ofn">🍤 وجبة جمبري كريسبي</span><span class="ofp">250 ج.م</span></div><div class="sd">جمبري مقلي مع البطاطس والأرز</div><button class="aib addSimpleBtn" data-name="وجبة جمبري كريسبي" data-price="250">➕ أضف للسلة</button></div>
+</div></div></div>
+
+<!-- تأكيد الطلب -->
+<div class="mmo" id="checkoutModal"><div class="mm" style="max-width:650px;width:95%"><div class="mh"></div><button class="mc" id="closeCheckoutModal">&times;</button>
+<div class="mi" style="padding:20px 24px 32px">
+<h2 class="mt" style="font-size:26px">📋 تفاصيل الطلب</h2>
+<div class="mtl"><span></span><svg width="18" viewBox="0 0 24 24" fill="#fcd34d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span></span></div>
+<div style="background:rgba(126,217,87,.08);border-radius:20px;padding:18px;margin-bottom:24px"><h3 style="color:var(--primary);font-size:17px;margin-bottom:12px">🍤 ملخص الطلب</h3><div id="orderSummary" style="font-size:14px;color:var(--muted);max-height:180px;overflow-y:auto;line-height:1.6"></div><div style="border-top:2px solid rgba(252,211,77,.3);margin-top:14px;padding-top:14px;display:flex;justify-content:space-between;font-weight:900;font-size:18px;color:var(--card)"><span>💰 الإجمالي:</span><span id="checkoutTotal">0 ج.م</span></div></div>
+<div style="margin-bottom:18px"><label style="display:block;color:var(--card);margin-bottom:8px;font-size:15px;font-weight:700">👤 الاسم الكامل <span style="color:#e74c3c">*</span></label><input type="text" id="fullName" placeholder="مثال: أحمد محمد علي" style="width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:#fff;font-size:15px;font-family:inherit"></div>
+<div style="margin-bottom:18px"><label style="display:block;color:var(--card);margin-bottom:8px;font-size:15px;font-weight:700">📞 رقم الهاتف <span style="color:#e74c3c">*</span></label><input type="tel" id="phoneNumber" placeholder="مثال: 01010505747" style="width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:#fff;font-size:15px;font-family:inherit"></div>
+<div style="margin-bottom:22px"><label style="display:block;color:var(--card);margin-bottom:8px;font-size:15px;font-weight:700">📍 عنوان التوصيل <span style="color:#e74c3c">*</span></label><textarea id="address" rows="3" placeholder="المدينة، الحي، الشارع، رقم البناية..." style="width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.06);color:#fff;font-size:15px;resize:vertical;font-family:inherit"></textarea></div>
+<div style="margin-bottom:24px"><label style="display:block;color:var(--card);margin-bottom:14px;font-size:15px;font-weight:700">💳 طريقة الدفع <span style="color:#e74c3c">*</span></label>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+<div class="pm-s" data-method="vodafone"><div style="font-size:34px">🏦</div><div style="font-size:14px;font-weight:800">فودافون كاش</div><div style="font-size:12px;color:var(--primary);margin-top:4px">01010505747</div></div>
+<div class="pm-s" data-method="instapay"><div style="font-size:34px">💳</div><div style="font-size:14px;font-weight:800">إنستا باي</div><div style="font-size:12px;color:var(--primary);margin-top:4px">01010505747</div></div>
+<div class="pm-s" data-method="cash"><div style="font-size:34px">💵</div><div style="font-size:14px;font-weight:800">كاش عند الاستلام</div><div style="font-size:11px;color:var(--muted);margin-top:4px">نقداً</div></div>
+</div><input type="hidden" id="selectedPayment" value="vodafone"></div>
+<div id="uploadSection" style="margin-bottom:22px;background:rgba(0,0,0,.2);border-radius:20px;padding:16px"><label style="display:block;color:var(--card);margin-bottom:10px;font-size:14px;font-weight:700">📎 إثبات التحويل</label><div id="uploadArea" style="background:rgba(255,255,255,.04);border:2px dashed var(--border);border-radius:18px;padding:20px;text-align:center;cursor:pointer"><span style="font-size:40px">📸</span><p style="font-size:13px;margin-top:8px;color:var(--muted)">اضغط لرفع صورة</p><input type="file" id="proofImage" accept="image/*" style="display:none"></div><div id="imagePreview" style="margin-top:14px;display:none;text-align:center"><img id="previewImg" style="max-width:100%;max-height:140px;border-radius:16px"></div><p style="font-size:11px;color:#e74c3c;margin-top:10px">⚠️ أرفق صورة واضحة لإثبات التحويل</p></div>
+<button id="confirmOrderBtn" style="width:100%;background:linear-gradient(135deg,#7ed957,#5cb838);border:none;padding:18px;border-radius:50px;color:var(--pf);font-weight:900;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:inherit">📲 تأكيد الطلب وإرسال للواتساب</button>
+</div></div></div>
+
+</div>
+
+<script>
+var spDB=null;
+(function(){try{var c=JSON.parse(localStorage.getItem("sp_cfg")||"{}");if(c.u&&c.k)spDB=window.supabase.createClient(c.u,c.k)}catch(e){}})();
+</script>
+<script>
+// === عداد الزوار ===
+(function(){
+var K='sp_vc',S='sp_vs',el=document.getElementById('visitorCount'),lb=document.getElementById('visitorLabel');
+var c=parseInt(localStorage.getItem(K)||'0',10);
+if(!localStorage.getItem(S)){c++;localStorage.setItem(K,''+c);localStorage.setItem(S,'1')}
+var st=performance.now();
+function an(now){var p=Math.min((now-st)/1200,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(c*e).toLocaleString();if(p<1)requestAnimationFrame(an);else{el.textContent=c.toLocaleString();el.classList.add('pulse');setTimeout(function(){el.classList.remove('pulse')},400)}}
+requestAnimationFrame(an);
+})();
+
+// === التطبيق الرئيسي ===
+var cart=JSON.parse(localStorage.getItem('sc')||'[]');
+function saveC(){localStorage.setItem('sc',JSON.stringify(cart));upUI()}
+function upUI(){
+var cs=document.getElementById('cCnt'),ts=document.getElementById('cTP'),cl=document.getElementById('cIL'),t=0,n=0;
+if(!cart.length){cl.innerHTML='<div class="ecm">السلة فارغة</div>';cs.innerText='0';ts.innerText='0 ج.م';return}
+var h='';cart.forEach(function(i,x){t+=i.price*i.qty;n+=i.qty;var d='';if(i.heat)d+='🔥 '+i.heat+' | ';if(i.sauce)d+='🥫 '+i.sauce+' | ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');h+='<div class="cit"><div class="cin">'+i.name+'<div class="cip">'+d+'<br>'+i.price+' ج.م</div></div><div class="cir"><span class="ciq">×'+i.qty+'</span><button class="crb" data-i="'+x+'">✕</button></div></div>'});
+cl.innerHTML=h;cs.innerText=n;ts.innerText=t+' ج.م';
+cl.querySelectorAll('.crb').forEach(function(b){b.addEventListener('click',function(){cart.splice(+this.dataset.i,1);saveC();toast('🗑 تم الحذف')})});
+}
+function toast(m){var t=document.getElementById('tst');clearTimeout(window._tt);t.innerText=m;t.classList.add('show');window._tt=setTimeout(function(){t.classList.remove('show')},2000)}
+function addW(d){
+var x=cart.findIndex(function(i){return i.name===d.name&&i.heat===d.heat&&i.sauce===d.sauce&&JSON.stringify(i.extras)===JSON.stringify(d.extras)});
+if(x!==-1){cart[x].qty++;cart[x].price=d.basePrice+(d.extrasPrice||0)}
+else cart.push({name:d.name,basePrice:d.basePrice,price:d.basePrice+(d.extrasPrice||0),qty:1,heat:d.heat,sauce:d.sauce,extras:d.extras,extrasPrice:d.extrasPrice||0});
+saveC();toast('✅ تمت الإضافة')}
+function bagOpts(c){
+var h=c.querySelector('.ho .hb.active'),s=c.querySelector('.so .sb.active'),ex=[],ep=0;
+c.querySelectorAll('.eo .eb.active').forEach(function(e){ex.push(e.dataset.ea);ep+=parseInt(e.dataset.ep)||0});
+return{heat:h?h.innerText:'عادي',sauce:s?s.innerText:'كـجـيـن',extras:ex,extrasPrice:ep}}
+document.querySelectorAll('.addBagBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();var o=bagOpts(this.closest('.bc')),bp=+this.dataset.basePrice,et=o.extras.length?' + '+o.extras.join(' + '):'';addW({name:this.dataset.name+' (🔥'+o.heat+' | 🥫'+o.sauce+et+')',basePrice:bp,heat:o.heat,sauce:o.sauce,extras:o.extras,extrasPrice:o.extrasPrice})})});
+document.querySelectorAll('.addMixBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();var c=this.closest('.bc'),h=c.querySelector('.ho .hb.active'),s=c.querySelector('.so .sb.active'),ht=h?h.innerText:'عادي',sa=s?s.innerText:'كـجـيـن';addW({name:this.dataset.name+' (🔥'+ht+' | 🥫'+sa+')',basePrice:+this.dataset.basePrice,heat:ht,sauce:sa,extras:[],extrasPrice:0})})});
+document.querySelectorAll('.addSimpleBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();addW({name:this.dataset.name,basePrice:+this.dataset.price,heat:null,sauce:null,extras:[],extrasPrice:0})})});
+document.querySelectorAll('.addPastaBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();var c=this.closest('.pc'),ex=[],ep=0;c.querySelectorAll('.eo .eb.active').forEach(function(e){ex.push(e.dataset.ea);ep+=parseInt(e.dataset.ep)||0});var et=ex.length?' + '+ex.join(' + '):'';addW({name:this.dataset.name+et,basePrice:+this.dataset.price,heat:null,sauce:null,extras:ex,extrasPrice:ep})})});
+document.querySelectorAll('.addTrayBtn').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();addW({name:this.dataset.name,basePrice:+this.dataset.price,heat:null,sauce:null,extras:[],extrasPrice:0})})});
+
+// تأكيد الطلب — يغلق السلة أولاً ثم يفتح مودال البيانات
+document.getElementById('ckB').addEventListener('click',function(){
+if(!cart.length){toast('⚠️ السلة فارغة!');return}
+var sh='',t=0;cart.forEach(function(i){var it=i.price*i.qty;t+=it;var d='';if(i.heat)d+='🔥 '+i.heat+' | ';if(i.sauce)d+='🥫 '+i.sauce+' | ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');sh+='<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>'+i.name+' ×'+i.qty+'<br><span style="font-size:11px;color:#7ed957">'+d+'</span></span><span style="color:var(--card)">'+it+' ج.م</span></div>'});
+document.getElementById('orderSummary').innerHTML=sh;document.getElementById('checkoutTotal').innerHTML=t+' ج.م';
+document.getElementById('fullName').value='';document.getElementById('phoneNumber').value='';document.getElementById('address').value='';document.getElementById('proofImage').value='';document.getElementById('imagePreview').style.display='none';
+document.getElementById('selectedPayment').value='vodafone';document.querySelectorAll('.pm-s').forEach(function(e){e.classList.remove('selected')});document.querySelector('.pm-s[data-method="vodafone"]').classList.add('selected');
+// أغلق السلة أولاً
+document.getElementById('cSB').classList.remove('open');document.body.classList.remove('modal-open');
+// انتظر أنيميشن إغلاق السلة ثم افتح مودال البيانات
+setTimeout(function(){document.getElementById('checkoutModal').classList.add('active');document.body.classList.add('modal-open')},400);
+});
+document.getElementById('closeCheckoutModal').addEventListener('click',function(){document.getElementById('checkoutModal').classList.remove('active');document.body.classList.remove('modal-open')});
+document.querySelectorAll('.pm-s').forEach(function(e){e.addEventListener('click',function(){document.querySelectorAll('.pm-s').forEach(function(m){m.classList.remove('selected')});this.classList.add('selected');document.getElementById('selectedPayment').value=this.dataset.method})});
+document.getElementById('uploadArea').addEventListener('click',function(){document.getElementById('proofImage').click()});
+document.getElementById('proofImage').addEventListener('change',function(){if(this.files&&this.files[0]){var r=new FileReader();r.onload=function(e){document.getElementById('previewImg').src=e.target.result;document.getElementById('imagePreview').style.display='block'};r.readAsDataURL(this.files[0])}});
+document.getElementById('confirmOrderBtn').addEventListener('click',function(){
+var fn=document.getElementById('fullName').value.trim(),ph=document.getElementById('phoneNumber').value.trim(),ad=document.getElementById('address').value.trim(),pm=document.getElementById('selectedPayment').value;
+if(!fn){toast('⚠️ أدخل الاسم');return}if(!ph){toast('⚠️ أدخل رقم الهاتف');return}if(!ad){toast('⚠️ أدخل العنوان');return}
+var pt=pm==='vodafone'?'💳 فودافون كاش':pm==='instapay'?'💳 إنستا باي':'💵 كاش عند الاستلام',t=0,od='';
+cart.forEach(function(i){var it=i.price*i.qty;t+=it;var d='';if(i.heat)d+='🔥 '+i.heat+', ';if(i.sauce)d+='🥫 '+i.sauce+', ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');od+='▪️ '+i.name+' ('+d+') × '+i.qty+' = '+it+' ج.م\n'});
+var msg='🍤 *طلب جديد - شرمب بيرتس* 🍤\n\n👤 *الاسم:* '+fn+'\n📞 *الهاتف:* '+ph+'\n📍 *العنوان:* '+ad+'\n💳 *الدفع:* '+pt+'\n\n*🛒 الطلب:*\n'+od+'\n💰 *الإجمالي:* '+t+' ج.م\n\n⏰ '+new Date().toLocaleString('ar-EG');
+if(spDB){var spItems=cart.map(function(i){return{name:i.name,qty:i.qty,price:i.price,heat:i.heat,sauce:i.sauce,extras:i.extras||[]}});spDB.from('orders').insert({customer_name:fn,phone:ph,address:ad,payment_method:pm,items:spItems,total:t,status:'pending'}).then(function(r){if(r.error)console.error(r.error)}).catch(function(){})}
+window.open('https://wa.me/201010505747?text='+encodeURIComponent(msg),'_blank');cart=[];saveC();document.getElementById('checkoutModal').classList.remove('active');document.body.classList.remove('modal-open');toast('🎉 تم إرسال الطلب!')});
+document.getElementById('checkoutModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('active');document.body.classList.remove('modal-open')}});
+
+// فتح/إغلاق المودالات
+function mdl(m,o,c){var m1=document.getElementById(m),o1=document.getElementById(o),c1=document.getElementById(c);if(o1)o1.addEventListener('click',function(e){e.preventDefault();m1.classList.add('active');document.body.classList.add('modal-open')});if(c1)c1.addEventListener('click',function(){m1.classList.remove('active');document.body.classList.remove('modal-open')});m1.addEventListener('click',function(e){if(e.target===m1){m1.classList.remove('active');document.body.classList.remove('modal-open')}})}
+mdl('mT','opT','xT');mdl('mB','opB','xB');mdl('mG','opG','xG');mdl('mS','opS','xS');mdl('mSW','opSW','xSW');mdl('mR','opR','xR');mdl('mO','opO','xO');mdl('mDr','opDr','xDr');mdl('mOff','opOff','xOff');
+
+// خيارات الأكياس (حرارة/صوص/إضافات)
+document.querySelectorAll('.ho').forEach(function(c){var bs=c.querySelectorAll('.hb');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.classList.remove('active')});this.classList.add('active')})})});
+document.querySelectorAll('.so').forEach(function(c){var bs=c.querySelectorAll('.sb');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.classList.remove('active')});this.classList.add('active')})})});
+document.querySelectorAll('.eo').forEach(function(c){c.querySelectorAll('.eb').forEach(function(b){b.addEventListener('click',function(){this.classList.toggle('active')})})});
+
+// التنقل
+document.getElementById('stmB').addEventListener('click',function(){document.getElementById('menuSection').scrollIntoView({behavior:'smooth'})});
+window.addEventListener('scroll',function(){document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>50)});
+document.getElementById('cartI').addEventListener('click',function(){document.getElementById('cSB').classList.add('open');document.body.classList.add('modal-open')});
+document.getElementById('cCB').addEventListener('click',function(){document.getElementById('cSB').classList.remove('open');document.body.classList.remove('modal-open')});
+document.addEventListener('click',function(e){var s=document.getElementById('cSB');if(s.classList.contains('open')&&!s.contains(e.target)&&!document.getElementById('cartI').contains(e.target)){s.classList.remove('open');document.body.classList.remove('modal-open')}});
+
+// القائمة الجانبية
+var ham=document.getElementById('hamB'),nl=document.getElementById('navL'),no=document.getElementById('navOv');
+function togN(){ham.classList.toggle('a');nl.classList.toggle('open');no.classList.toggle('open');document.body.classList.toggle('modal-open',nl.classList.contains('open'))}
+ham.addEventListener('click',togN);if(no)no.addEventListener('click',togN);
+nl.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){if(nl.classList.contains('open'))togN()})});
+
+// اللغات
+var cL='ar',TR={ar:{home:'🏠 الرئيسية',menu:'🍽️ القائمة',about:'⚓ من نحن',contact:'📞 اتصل بنا',welcome:'✨ أهلًا بك في عالم الجمبري ✨',heroTitle:'قراصنه الجمبري',menuBtn:'تفقد القائمة',aboutLink:'من نحن ←',menuTitle:'قائمة الطعام',aboutTitle:'من نحن',aboutText:'في شرمب بيرتس (SHRIMP PIRATES) نقدم لكم أشهى المأكولات البحرية الطازجة بنكهات مميزة من جميع أنحاء العالم. جودة عالية، أسعار مناسبة، وأجواء بحرية فريدة. ⚓🏴‍☠️',contactTitle:'تواصل معنا',copyright:'© 2026 SHRIMP PIRATES — جميع الحقوق محفوظة',cartTitle:'🛒 سلة الطلبات',cartEmpty:'السلة فارغة',totalLabel:'الإجمالي:',checkoutBtn:'تأكيد الطلب عبر واتساب 📲'},en:{home:'🏠 Home',menu:'🍽️ Menu',about:'⚓ About',contact:'📞 Contact',welcome:'✨ Welcome to the Pirates World ✨',heroTitle:'Shrimp Pirates',menuBtn:'View Menu',aboutLink:'About Us ←',menuTitle:'Food Menu',aboutTitle:'About Us',aboutText:'At Shrimp Pirates, we serve the freshest seafood with unique flavors from around the world. High quality, affordable prices, and a unique maritime atmosphere. ⚓🏴‍☠️',contactTitle:'Contact Us',copyright:'© 2026 SHRIMP PIRATES — All Rights Reserved',cartTitle:'🛒 Cart',cartEmpty:'Cart is empty',totalLabel:'Total:',checkoutBtn:'Confirm via WhatsApp 📲'}};
+function sL(l){cL=l;localStorage.setItem('lang',l);document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');document.getElementById('langL').innerText=l==='ar'?'EN':'AR';document.querySelectorAll('[data-key]').forEach(function(el){if(TR[l][el.dataset.key])el.innerText=TR[l][el.dataset.key]});document.getElementById('visitorLabel').textContent=l==='ar'?'عدد زوار الموقع':'TOTAL VISITORS'}
+document.getElementById('langT').addEventListener('click',function(){sL(cL==='ar'?'en':'ar')});
+
+upUI();
+</script>
+</body>
+</html>
