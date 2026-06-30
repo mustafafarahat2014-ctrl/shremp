@@ -455,11 +455,9 @@ document.getElementById('closeCheckoutModal').addEventListener('click',function(
 document.querySelectorAll('.pm-s').forEach(function(e){e.addEventListener('click',function(){document.querySelectorAll('.pm-s').forEach(function(m){m.classList.remove('selected')});this.classList.add('selected');document.getElementById('selectedPayment').value=this.dataset.method})});
 document.getElementById('uploadArea').addEventListener('click',function(){document.getElementById('proofImage').click()});
 document.getElementById('proofImage').addEventListener('change',function(){if(this.files&&this.files[0]){var r=new FileReader();r.onload=function(e){document.getElementById('previewImg').src=e.target.result;document.getElementById('imagePreview').style.display='block'};r.readAsDataURL(this.files[0])}});
-document.getElementById('confirmOrderBtn').addEventListener('click',function(e){
-e.preventDefault();
-if(this._busy)return;this._busy=true;var self=this;setTimeout(function(){self._busy=false},3000);
+document.getElementById('confirmOrderBtn').addEventListener('click',function(){
 var fn=document.getElementById('fullName').value.trim(),ph=document.getElementById('phoneNumber').value.trim(),ad=document.getElementById('address').value.trim(),pm=document.getElementById('selectedPayment').value;
-if(!fn){toast('⚠️ أدخل الاسم');this._busy=false;return}if(!ph){toast('⚠️ أدخل رقم الهاتف');this._busy=false;return}if(!ad){toast('⚠️ أدخل العنوان');this._busy=false;return}
+if(!fn){toast('⚠️ أدخل الاسم');return}if(!ph){toast('⚠️ أدخل رقم الهاتف');return}if(!ad){toast('⚠️ أدخل العنوان');return}
 var pt=pm==='vodafone'?'💳 فودافون كاش':pm==='instapay'?'💳 إنستا باي':'💵 كاش عند الاستلام',t=0,od='';
 cart.forEach(function(i){var it=i.price*i.qty;t+=it;var d='';if(i.heat)d+='🔥 '+i.heat+', ';if(i.sauce)d+='🥫 '+i.sauce+', ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');od+='▪️ '+i.name+' ('+d+') × '+i.qty+' = '+it+' ج.م\n'});
 var msg='🍤 *طلب جديد - شرمب بيرتس* 🍤\n\n👤 *الاسم:* '+fn+'\n📞 *الهاتف:* '+ph+'\n📍 *العنوان:* '+ad+'\n💳 *الدفع:* '+pt+'\n\n*🛒 الطلب:*\n'+od+'\n💰 *الإجمالي:* '+t+' ج.م\n\n⏰ '+new Date().toLocaleString('ar-EG');
