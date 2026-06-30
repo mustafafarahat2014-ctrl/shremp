@@ -470,8 +470,9 @@ if(sp){
     if(r.error)console.error('Order insert error:',r.error);
     else console.log('Order sent to admin panel successfully');
   }).catch(function(e){console.error('Order insert failed:',e)});
-}}
-window.open('https://wa.me/201010505747?text='+encodeURIComponent(msg),'_blank');cart=[];saveC();document.getElementById('checkoutModal').classList.remove('active');document.body.classList.remove('modal-open');toast('🎉 تم إرسال الطلب!')});
+}
+window.open('https://wa.me/201010505747?text='+encodeURIComponent(msg),'_blank');cart=[];saveC();document.getElementById('checkoutModal').classList.remove('active');document.body.classList.remove('modal-open');toast('🎉 تم إرسال الطلب!');
+});
 document.getElementById('checkoutModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('active');document.body.classList.remove('modal-open')}});
 
 // فتح/إغلاق المودالات
