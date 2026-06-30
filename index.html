@@ -184,6 +184,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--primary)!important;ba
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div id="mainContent">
@@ -391,6 +392,9 @@ var spDB=null;
 (function(){try{var c=JSON.parse(localStorage.getItem("sp_cfg")||"{}");if(c.u&&c.k)spDB=window.supabase.createClient(c.u,c.k)}catch(e){}})();
 </script>
 <script>
+function getSP(){if(window.spDB)return window.spDB;try{var c=JSON.parse(localStorage.getItem("sp_cfg")||"{}");if(c.u&&c.k){window.spDB=window.supabase.createClient(c.u,c.k);return window.spDB}}catch(e){}return null}
+</script>
+<script>
 // === عداد الزوار ===
 (function(){
 var K='sp_vc',S='sp_vs',el=document.getElementById('visitorCount'),lb=document.getElementById('visitorLabel');
@@ -450,6 +454,7 @@ var pt=pm==='vodafone'?'💳 فودافون كاش':pm==='instapay'?'💳 إنس
 cart.forEach(function(i){var it=i.price*i.qty;t+=it;var d='';if(i.heat)d+='🔥 '+i.heat+', ';if(i.sauce)d+='🥫 '+i.sauce+', ';if(i.extras&&i.extras.length)d+='➕ '+i.extras.join(', ');od+='▪️ '+i.name+' ('+d+') × '+i.qty+' = '+it+' ج.م\n'});
 var msg='🍤 *طلب جديد - شرمب بيرتس* 🍤\n\n👤 *الاسم:* '+fn+'\n📞 *الهاتف:* '+ph+'\n📍 *العنوان:* '+ad+'\n💳 *الدفع:* '+pt+'\n\n*🛒 الطلب:*\n'+od+'\n💰 *الإجمالي:* '+t+' ج.م\n\n⏰ '+new Date().toLocaleString('ar-EG');
 if(spDB){var spItems=cart.map(function(i){return{name:i.name,qty:i.qty,price:i.price,heat:i.heat,sauce:i.sauce,extras:i.extras||[]}});spDB.from('orders').insert({customer_name:fn,phone:ph,address:ad,payment_method:pm,items:spItems,total:t,status:'pending'}).then(function(r){if(r.error)console.error(r.error)}).catch(function(){})}
+var sp=getSP();if(sp){var spItems=cart.map(function(i){return{name:i.name,qty:i.qty,price:i.price,heat:i.heat,sauce:i.sauce,extras:i.extras||[]}});sp.from('orders').insert({customer_name:fn,phone:ph,address:ad,payment_method:pm,items:spItems,total:t,status:'pending'}).then(function(r){if(r.error)console.error(r.error)}).catch(function(){})}
 window.open('https://wa.me/201010505747?text='+encodeURIComponent(msg),'_blank');cart=[];saveC();document.getElementById('checkoutModal').classList.remove('active');document.body.classList.remove('modal-open');toast('🎉 تم إرسال الطلب!')});
 document.getElementById('checkoutModal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('active');document.body.classList.remove('modal-open')}});
 
